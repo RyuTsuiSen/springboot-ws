@@ -18,9 +18,10 @@
  */
 package fr.trandutrieu.remy.springbootjaxws.application.service;
 
-import java.util.logging.Logger;
-
 import javax.jws.WebService;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Examples code for spring boot with CXF services. HelloPortImpl is the
@@ -31,8 +32,8 @@ import javax.jws.WebService;
 @WebService
 public class HelloPortImpl implements Hello {
 
-    private static final Logger LOG = Logger.getLogger(HelloPortImpl.class.getName());
-
+	private static final Logger LOG = LoggerFactory.getLogger(HelloPortImpl.class);
+	
     public java.lang.String sayHello(java.lang.String myname) {
         LOG.info("Executing operation sayHello" + myname);
         try {
