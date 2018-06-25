@@ -18,10 +18,15 @@
  */
 package fr.trandutrieu.remy.springbootjaxws.application.service;
 
+import javax.jws.HandlerChain;
 import javax.jws.WebService;
 
+import org.apache.cxf.interceptor.OutFaultInterceptors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import fr.trandutrieu.remy.springbootjaxws.socle.BusinessResponse;
+import fr.trandutrieu.remy.springbootjaxws.socle.exceptions.BusinessException;
 
 /**
  * Examples code for spring boot with CXF services. HelloPortImpl is the
@@ -30,19 +35,32 @@ import org.slf4j.LoggerFactory;
  */
 
 @WebService
+@HandlerChain(file = "../../../../../../handlers.xml")
+@OutFaultInterceptors(interceptors = {"fr.trandutrieu.remy.springbootjaxws.socle.interceptors.ErrorWebserviceInterceptor" })
+//@OutInterceptors(interceptors = {"fr.trandutrieu.remy.springbootjaxws.socle.interceptors.ErrorWebserviceInterceptor" })
 public class HelloPortImpl implements Hello {
 
 	private static final Logger LOG = LoggerFactory.getLogger(HelloPortImpl.class);
 	
-    public java.lang.String sayHello(java.lang.String myname) {
-        LOG.info("Executing operation sayHello" + myname);
-        try {
-            return "Hello, Welcome to CXF Spring boot " + myname + "!!!";
-
-        } catch (java.lang.Exception ex) {
-            ex.printStackTrace();
-            throw new RuntimeException(ex);
-        }
+    public BusinessResponse sayHello(String myname) {
+    	BusinessResponse reponse = new BusinessResponse();
+    	LOG.info("Executing operation sayHello" + myname);
+    	reponse.setReponse("Hello, Welcome to CXF Spring boot " + myname + "!!!");
+    	reponse.setCode("000");
+    	reponse.setLabel("OK");
+    	return reponse;
     }
+    
+    public BusinessResponse sayRuntimeException() {
+    	LOG.info("Executing operation sayRuntimeException");
+    	throw new RuntimeException("une erreur grave est survenue");
+    }
+
+	@Override
+	public BusinessResponse sayBusinessException() throws BusinessException {
+    	LOG.info("Executing operation sayBusinessException");
+    	throw new BusinessException();
+	}
+    
 
 }
