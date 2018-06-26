@@ -21,7 +21,6 @@ package fr.trandutrieu.remy.springbootjaxws.application.service;
 import javax.jws.HandlerChain;
 import javax.jws.WebService;
 
-import org.apache.cxf.interceptor.OutFaultInterceptors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,8 +35,6 @@ import fr.trandutrieu.remy.springbootjaxws.socle.exceptions.BusinessException;
 
 @WebService
 @HandlerChain(file = "../../../../../../handlers.xml")
-@OutFaultInterceptors(interceptors = {"fr.trandutrieu.remy.springbootjaxws.socle.interceptors.ErrorWebserviceInterceptor" })
-//@OutInterceptors(interceptors = {"fr.trandutrieu.remy.springbootjaxws.socle.interceptors.ErrorWebserviceInterceptor" })
 public class HelloPortImpl implements Hello {
 
 	private static final Logger LOG = LoggerFactory.getLogger(HelloPortImpl.class);
