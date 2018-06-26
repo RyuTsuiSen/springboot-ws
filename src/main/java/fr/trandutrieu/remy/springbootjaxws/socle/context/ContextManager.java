@@ -2,7 +2,7 @@ package fr.trandutrieu.remy.springbootjaxws.socle.context;
 
 public class ContextManager {
 	
-	private static final ThreadLocal<ContextBean> context = new ThreadLocal<>(); ;
+	private static final InheritableThreadLocal<ContextBean> context = new InheritableThreadLocal<>(); ;
 	
 	public static ContextBean get() {
 		return context.get();
