@@ -1,0 +1,47 @@
+package fr.trandutrieu.remy.springbootjaxws.socle.audit;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import fr.trandutrieu.remy.springbootjaxws.socle.context.ContextManager;
+
+public class Audit {
+	private static final Logger LOG = LoggerFactory.getLogger(Audit.class);
+	
+	public static void trace(Level level,  String message, Exception e, String... param) {
+		
+		StringBuilder fullMessage = new StringBuilder(ContextManager.get().getConversationID());
+		fullMessage.append(" ").append(message);
+		if (e != null) {
+			fullMessage.append(" ").append(e.getStackTrace());
+		}
+		switch (level) {
+		case DEBUG:
+			LOG.debug(fullMessage.toString());
+			break;
+		case INFO:
+			LOG.info(fullMessage.toString());
+			break;
+		case WARNING:
+			LOG.warn(fullMessage.toString());
+			break;
+		case ERROR:
+			LOG.error(fullMessage.toString());
+			break;
+		default:
+			break;
+		}
+	}
+	
+	public enum Level{
+		DEBUG,
+		INFO,
+		WARNING,
+		ERROR;
+	}
+
+	public static void trace(Level level, String message, String... params) {
+		trace(level, message, null, params);
+		
+	}
+}

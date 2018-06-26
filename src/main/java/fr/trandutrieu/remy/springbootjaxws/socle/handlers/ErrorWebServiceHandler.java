@@ -12,24 +12,15 @@ import javax.xml.ws.handler.soap.SOAPHandler;
 
 import org.apache.cxf.jaxws.handler.soap.SOAPMessageContextImpl;
 import org.apache.cxf.message.Message;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
 
+import fr.trandutrieu.remy.springbootjaxws.socle.audit.Audit;
+import fr.trandutrieu.remy.springbootjaxws.socle.audit.Audit.Level;
 import fr.trandutrieu.remy.springbootjaxws.socle.exceptions.BusinessException;
 
-public class MonHandler implements SOAPHandler<SOAPMessageContextImpl> {
-	private static final Logger LOG = LoggerFactory.getLogger(MonHandler.class);
+public class ErrorWebServiceHandler implements SOAPHandler<SOAPMessageContextImpl> {
 
 	public boolean handleMessage(SOAPMessageContextImpl mc) {
-		Boolean outboundProperty = (Boolean) mc.get (MessageContext.MESSAGE_OUTBOUND_PROPERTY);
-
-		if (outboundProperty.booleanValue()) {
-			LOG.info("La requete sort");
-		} else {
-			LOG.info("La requete entre");
-		}
-
 		return true;
 	}
 
@@ -52,20 +43,18 @@ public class MonHandler implements SOAPHandler<SOAPMessageContextImpl> {
 			Throwable cause = content.getCause();
 
 			if (cause instanceof BusinessException) {
-				faultCode.setNodeValue("EIP_0001");
+				faultCode.setNodeValue(Error.ERROR_BUSINESS.getErrorCode().name());
 				faultString.setNodeValue(cause.getMessage());
 			}
 			else if (cause instanceof Throwable) {
-				faultCode.setNodeValue("EIP_0002");
+				faultCode.setNodeValue(Error.ERROR_SERVER.getErrorCode().name());
 				faultString.setNodeValue(cause.getMessage());
 			}
 		} catch (SOAPException e) {
-			LOG.error("La requete sort en erreur");
-			e.printStackTrace();
+			Audit.trace(Level.ERROR, "OUT | SERVICE | ERROR HANDLER ", e);
 		}
 
-
-		LOG.error("La requete sort en erreur");
+		Audit.trace(Level.DEBUG, "OUT | SERVICE | ERROR HANDLER | Override soap fault");
 		return true;
 	}
 

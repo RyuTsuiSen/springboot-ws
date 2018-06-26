@@ -25,6 +25,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import fr.trandutrieu.remy.springbootjaxws.socle.BusinessResponse;
+import fr.trandutrieu.remy.springbootjaxws.socle.audit.Audit;
+import fr.trandutrieu.remy.springbootjaxws.socle.audit.Audit.Level;
 import fr.trandutrieu.remy.springbootjaxws.socle.exceptions.BusinessException;
 
 /**
@@ -37,11 +39,10 @@ import fr.trandutrieu.remy.springbootjaxws.socle.exceptions.BusinessException;
 @HandlerChain(file = "../../../../../../handlers.xml")
 public class HelloPortImpl implements Hello {
 
-	private static final Logger LOG = LoggerFactory.getLogger(HelloPortImpl.class);
 	
     public BusinessResponse sayHello(String myname) {
     	BusinessResponse reponse = new BusinessResponse();
-    	LOG.info("Executing operation sayHello" + myname);
+    	Audit.trace(Level.INFO, "Executing operation sayHello" + myname);
     	reponse.setReponse("Hello, Welcome to CXF Spring boot " + myname + "!!!");
     	reponse.setCode("000");
     	reponse.setLabel("OK");
@@ -49,13 +50,13 @@ public class HelloPortImpl implements Hello {
     }
     
     public BusinessResponse sayRuntimeException() {
-    	LOG.info("Executing operation sayRuntimeException");
+    	Audit.trace(Level.INFO, "Executing operation sayRuntimeException");
     	throw new RuntimeException("une erreur grave est survenue");
     }
 
 	@Override
 	public BusinessResponse sayBusinessException() throws BusinessException {
-    	LOG.info("Executing operation sayBusinessException");
+		Audit.trace(Level.INFO, "Executing operation sayBusinessException");
     	throw new BusinessException();
 	}
     

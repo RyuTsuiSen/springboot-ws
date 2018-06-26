@@ -1,9 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <handler-chains xmlns="http://java.sun.com/xml/ns/javaee">
-  <handler-chain>
-    <handler>
-      <handler-name>MyHandler1</handler-name>
-      <handler-class>fr.trandutrieu.remy.springbootjaxws.socle.handlers.MonHandler</handler-class>
-    </handler>
-  </handler-chain>
+	<handler-chain>
+		<handler>
+			<handler-name>ErrorWebServiceHandler</handler-name>
+			<handler-class>fr.trandutrieu.remy.springbootjaxws.socle.handlers.ErrorWebServiceHandler
+			</handler-class>
+		</handler>
+
+		<handler>
+			<handler-name>Authorization</handler-name>
+			<handler-class>fr.trandutrieu.remy.springbootjaxws.socle.handlers.AuthorizationHandler
+			</handler-class>
+		</handler>
+
+		<handler>
+			<handler-name>Authentication</handler-name>
+			<handler-class>fr.trandutrieu.remy.springbootjaxws.socle.handlers.AuthenticationHandler
+			</handler-class>
+		</handler>
+
+		<handler>
+			<handler-name>InitializeContext</handler-name>
+			<handler-class>fr.trandutrieu.remy.springbootjaxws.socle.handlers.InitializeContextHandler
+			</handler-class>
+		</handler>
+		
+		<handler>
+			<handler-name>AuditInOut</handler-name>
+			<handler-class>fr.trandutrieu.remy.springbootjaxws.socle.handlers.AuditInOutHandler
+			</handler-class>
+		</handler>
+	</handler-chain>
 </handler-chains>
