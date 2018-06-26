@@ -10,8 +10,9 @@ public class Audit {
 	
 	public static void trace(Level level,  String message, Throwable e, String... param) {
 		
-		StringBuilder fullMessage = new StringBuilder(ContextManager.get().getConversationID());
-		fullMessage.append(" ").append(message);
+		StringBuilder fullMessage = new StringBuilder();
+		fullMessage.append(ContextManager.get().getConversationID()).append("-").append(ContextManager.get().getCaller()).append("-").append(ContextManager.get().getRequestedService())
+		.append("?").append(ContextManager.get().getRequestedOperation()).append("v").append(ContextManager.get().getVersionService()).append("-").append(message);
 		if (e != null) {
 			fullMessage.append(" ").append(e.toString());
 		}
