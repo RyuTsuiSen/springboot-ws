@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package fr.trandutrieu.remy.springbootjaxws.application.service;
+package fr.trandutrieu.remy.springbootjaxws.application.hello;
 
 import javax.jws.HandlerChain;
 import javax.jws.WebService;

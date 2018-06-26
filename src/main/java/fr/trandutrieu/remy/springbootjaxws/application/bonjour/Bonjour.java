@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package fr.trandutrieu.remy.springbootjaxws.application.service;
+package fr.trandutrieu.remy.springbootjaxws.application.bonjour;
 
 import javax.jws.WebService;
 
@@ -29,9 +29,9 @@ import fr.trandutrieu.remy.springbootjaxws.socle.exceptions.BusinessException;
  * 2015-05-18T13:02:03.098-05:00 Generated source version: 3.1.0
  */
 @WebService
-public interface Hello {
+public interface Bonjour {
 
-    BusinessResponse sayHello(String myname);
+    BusinessResponse disBonjour(String myname);
     public BusinessResponse sayRuntimeException();
     public BusinessResponse sayBusinessException() throws BusinessException;
 }
