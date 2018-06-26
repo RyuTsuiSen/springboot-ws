@@ -57,7 +57,7 @@ public class InitializeContextHandler implements SOAPHandler<SOAPMessageContextI
 	}
 
 	private boolean checkHeaders() {
-		return false;
+		return true;
 	}
 
 	public Set<QName> getHeaders() {

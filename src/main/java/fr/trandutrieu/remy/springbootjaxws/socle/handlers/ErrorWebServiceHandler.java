@@ -50,11 +50,11 @@ public class ErrorWebServiceHandler implements SOAPHandler<SOAPMessageContextImp
 				faultCode.setNodeValue(Error.ERROR_SERVER.getErrorCode().name());
 				faultString.setNodeValue(cause.getMessage());
 			}
+			Audit.trace(Level.ERROR, "OUT | SERVICE | ERROR HANDLER | Override soap fault", cause);
 		} catch (SOAPException e) {
 			Audit.trace(Level.ERROR, "OUT | SERVICE | ERROR HANDLER ", e);
 		}
 
-		Audit.trace(Level.DEBUG, "OUT | SERVICE | ERROR HANDLER | Override soap fault");
 		return true;
 	}
 

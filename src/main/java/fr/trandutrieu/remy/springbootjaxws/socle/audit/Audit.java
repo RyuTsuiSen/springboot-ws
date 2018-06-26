@@ -8,12 +8,12 @@ import fr.trandutrieu.remy.springbootjaxws.socle.context.ContextManager;
 public class Audit {
 	private static final Logger LOG = LoggerFactory.getLogger(Audit.class);
 	
-	public static void trace(Level level,  String message, Exception e, String... param) {
+	public static void trace(Level level,  String message, Throwable e, String... param) {
 		
 		StringBuilder fullMessage = new StringBuilder(ContextManager.get().getConversationID());
 		fullMessage.append(" ").append(message);
 		if (e != null) {
-			fullMessage.append(" ").append(e.getStackTrace());
+			fullMessage.append(" ").append(e.toString());
 		}
 		switch (level) {
 		case DEBUG:
