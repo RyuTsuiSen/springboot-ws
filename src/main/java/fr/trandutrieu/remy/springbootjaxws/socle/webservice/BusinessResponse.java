@@ -1,4 +1,4 @@
-package fr.trandutrieu.remy.springbootjaxws.socle;
+package fr.trandutrieu.remy.springbootjaxws.socle.webservice;
 
 public class BusinessResponse {
 

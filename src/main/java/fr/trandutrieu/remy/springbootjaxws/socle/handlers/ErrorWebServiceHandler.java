@@ -20,6 +20,8 @@ import fr.trandutrieu.remy.springbootjaxws.socle.exceptions.BusinessException;
 
 public class ErrorWebServiceHandler implements SOAPHandler<SOAPMessageContextImpl> {
 
+	private static final String EXCEPTION_HANDLER = "EXCEPTION HANDLER";
+	
 	public boolean handleMessage(SOAPMessageContextImpl mc) {
 		return true;
 	}
@@ -50,9 +52,9 @@ public class ErrorWebServiceHandler implements SOAPHandler<SOAPMessageContextImp
 				faultCode.setNodeValue(Error.ERROR_SERVER.getErrorCode().name());
 				faultString.setNodeValue(cause.getMessage());
 			}
-			Audit.trace(Level.ERROR, "OUT | SERVICE | ERROR HANDLER | Override soap fault", cause);
+			Audit.trace(Level.ERROR, EXCEPTION_HANDLER, "Detail erreur", cause);
 		} catch (SOAPException e) {
-			Audit.trace(Level.ERROR, "OUT | SERVICE | ERROR HANDLER ", e);
+			Audit.trace(Level.ERROR, EXCEPTION_HANDLER, "Grave erreur survenue", e);
 		}
 
 		return true;

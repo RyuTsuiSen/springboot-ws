@@ -30,13 +30,16 @@ import fr.trandutrieu.remy.springbootjaxws.socle.context.ContextManager;
 
 public class AuditInOutHandler implements SOAPHandler<SOAPMessageContextImpl> {
 
+	private static final String IN_SERVICE = "SERVICE IN";
+	private static final String OUT_SERVICE = "SERVICE OUT";
 	
 	public boolean handleMessage(SOAPMessageContextImpl mc) {
 		Boolean outboundProperty = (Boolean) mc.get (MessageContext.MESSAGE_OUTBOUND_PROPERTY);
 		if (outboundProperty.booleanValue()) {
 			Duration duration = Duration.between(ContextManager.get().getStart(), Instant.now());
-			Audit.trace(Level.INFO, "OUT | SERVICE execTime = " + duration.toMillis() + "ms");
+			Audit.trace(Level.INFO, OUT_SERVICE, "execTime = " + duration.toMillis() + "ms");
 			ContextManager.remove();
+			MDC.clear();
 		}
 		else {
 			ContextBean bean = new ContextBean();
@@ -53,14 +56,19 @@ public class AuditInOutHandler implements SOAPHandler<SOAPMessageContextImpl> {
 			
 			String username = getUsername(mc);
 			if (StringUtils.isEmpty(username)) {
-				buildSoapFault(mc);
+				initMDC();
+				Audit.trace(Level.INFO, IN_SERVICE, "");
+				Exception exception = buildSoapFault(mc);
+				Duration duration = Duration.between(ContextManager.get().getStart(), Instant.now());
+				Audit.trace(Level.ERROR, OUT_SERVICE, "execTime = " + duration.toMillis() + "ms", exception);
+				ContextManager.remove();
+				MDC.clear();
 				return false;
 			}
 			bean.setCaller(username);
 			
 			initMDC();
-			
-			Audit.trace(Level.INFO, "IN | SERVICE");
+			Audit.trace(Level.INFO, IN_SERVICE, "");
 		}
 
 		return true;
@@ -75,7 +83,7 @@ public class AuditInOutHandler implements SOAPHandler<SOAPMessageContextImpl> {
 		MDC.put("consumerName", ContextManager.get().getCaller());
 	}
 
-	private void buildSoapFault(final SOAPMessageContextImpl mc) {
+	private SOAPException buildSoapFault(final SOAPMessageContextImpl mc) {
 		try {
 			SOAPBody soapBody = mc.getMessage().getSOAPBody();
 			soapBody.removeContents();
@@ -89,11 +97,10 @@ public class AuditInOutHandler implements SOAPHandler<SOAPMessageContextImpl> {
 			
 			faultCode.setNodeValue(Error.HEADERS_INVALID.getErrorCode().name());
 			faultString.setNodeValue(Error.HEADERS_INVALID.getErrorCode().getLabel());
-			
-			Audit.trace(Level.WARNING, "IN | SERVICE | HEADER UNEXPECTED");
 		} catch (SOAPException e) {
-			Audit.trace(Level.ERROR, "IN | SERVICE | HEADER ERROR", e);
+			return e;
 		}
+		return null;
 	}
 
 	private String getUsername(SOAPMessageContextImpl mc) {
@@ -112,7 +119,7 @@ public class AuditInOutHandler implements SOAPHandler<SOAPMessageContextImpl> {
 
 	public boolean handleFault(SOAPMessageContextImpl mc) {
 		Duration duration = Duration.between(ContextManager.get().getStart(), Instant.now());
-		Audit.trace(Level.ERROR, "OUT | SERVICE execTime = " + duration.toMillis() + "ms");
+		Audit.trace(Level.ERROR, OUT_SERVICE, "execTime = " + duration.toMillis() + "ms");
 		ContextManager.remove();
 		return true;
 	}

@@ -20,6 +20,8 @@ import fr.trandutrieu.remy.springbootjaxws.socle.audit.Audit.Level;
 
 public class AuthorizationHandler implements SOAPHandler<SOAPMessageContextImpl> {
 
+	private static final String AUTHORIZATION = "AUTHORIZATION";
+	
 	public boolean handleMessage(SOAPMessageContextImpl mc) {
 		Boolean outboundProperty = (Boolean) mc.get (MessageContext.MESSAGE_OUTBOUND_PROPERTY);
 
@@ -44,16 +46,16 @@ public class AuthorizationHandler implements SOAPHandler<SOAPMessageContextImpl>
 					faultCode.setNodeValue(Error.AUTHORIZATION_ERROR.getErrorCode().name());
 					faultString.setNodeValue(Error.AUTHORIZATION_ERROR.getErrorCode().getLabel());
 					
-					Audit.trace(Level.WARNING, "IN | SERVICE AUTHORIZATION | Authorization failed");
+					Audit.trace(Level.ERROR, AUTHORIZATION, "Authorization failed");
 				} catch (SOAPException e) {
-					Audit.trace(Level.ERROR, "IN | SERVICE AUTHORIZATION ERROR", e);
+					Audit.trace(Level.ERROR, AUTHORIZATION, "Authorization failed", e);
 				}
 				
 				return false;
 			}
 			else {
 				Duration duration = Duration.between(start, Instant.now());
-				Audit.trace(Level.INFO, "IN | SERVICE AUTHORIZATION | Authorization OK " + duration.toMillis() + "ms");
+				Audit.trace(Level.INFO, AUTHORIZATION, "Authorization OK " + duration.toMillis() + "ms");
 			}
 			
 		}

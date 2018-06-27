@@ -20,8 +20,9 @@ package fr.trandutrieu.remy.springbootjaxws.application.bonjour;
 
 import javax.jws.WebService;
 
-import fr.trandutrieu.remy.springbootjaxws.socle.BusinessResponse;
 import fr.trandutrieu.remy.springbootjaxws.socle.exceptions.BusinessException;
+import fr.trandutrieu.remy.springbootjaxws.socle.webservice.BusinessResponse;
+import fr.trandutrieu.remy.springbootjaxws.socle.webservice.Webservice;
 
 /**
  * Examples code for spring boot with CXF services. Hello is the interface for
@@ -29,7 +30,7 @@ import fr.trandutrieu.remy.springbootjaxws.socle.exceptions.BusinessException;
  * 2015-05-18T13:02:03.098-05:00 Generated source version: 3.1.0
  */
 @WebService
-public interface Bonjour {
+public interface Bonjour extends Webservice {
 
     BusinessResponse disBonjour(String myname);
     public BusinessResponse sayRuntimeException();

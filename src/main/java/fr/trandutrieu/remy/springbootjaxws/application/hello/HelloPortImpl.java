@@ -18,13 +18,11 @@
  */
 package fr.trandutrieu.remy.springbootjaxws.application.hello;
 
-import javax.jws.HandlerChain;
 import javax.jws.WebService;
 
-import fr.trandutrieu.remy.springbootjaxws.socle.BusinessResponse;
-import fr.trandutrieu.remy.springbootjaxws.socle.audit.Audit;
-import fr.trandutrieu.remy.springbootjaxws.socle.audit.Audit.Level;
 import fr.trandutrieu.remy.springbootjaxws.socle.exceptions.BusinessException;
+import fr.trandutrieu.remy.springbootjaxws.socle.webservice.BusinessResponse;
+import fr.trandutrieu.remy.springbootjaxws.socle.webservice.WebserviceImpl;
 
 /**
  * Examples code for spring boot with CXF services. HelloPortImpl is the
@@ -33,27 +31,22 @@ import fr.trandutrieu.remy.springbootjaxws.socle.exceptions.BusinessException;
  */
 
 @WebService
-@HandlerChain(file = "../../../../../../handlers.xml")
-public class HelloPortImpl implements Hello {
-
+public class HelloPortImpl extends WebserviceImpl implements Hello {
 	
     public BusinessResponse sayHello(String myname) {
     	BusinessResponse reponse = new BusinessResponse();
-    	Audit.trace(Level.INFO, "Executing operation sayHello" + myname);
     	reponse.setReponse("Hello, Welcome to CXF Spring boot " + myname + "!!!");
     	reponse.setCode("000");
     	reponse.setLabel("OK");
     	return reponse;
     }
-    
+
     public BusinessResponse sayRuntimeException() {
-    	Audit.trace(Level.INFO, "Executing operation sayRuntimeException");
     	throw new RuntimeException("une erreur grave est survenue");
     }
 
 	@Override
 	public BusinessResponse sayBusinessException() throws BusinessException {
-		Audit.trace(Level.INFO, "Executing operation sayBusinessException");
     	throw new BusinessException();
 	}
     

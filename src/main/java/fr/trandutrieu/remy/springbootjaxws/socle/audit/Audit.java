@@ -6,9 +6,10 @@ import org.slf4j.LoggerFactory;
 public class Audit {
 	private static final Logger LOG = LoggerFactory.getLogger(Audit.class);
 	
-	public static void trace(Level level,  String message, Throwable e, String... param) {
+	public static void trace(Level level, String title,  String message, Throwable e) {
 		
-		StringBuilder fullMessage = new StringBuilder(message);
+		StringBuilder fullMessage = new StringBuilder();
+		fullMessage.append(title).append(" | ").append(message);
 		if (e != null){
 			fullMessage.append(" | ").append(getStackTrace(e));
 		}
@@ -64,8 +65,7 @@ public class Audit {
 		ERROR;
 	}
 
-	public static void trace(Level level, String message, String... params) {
-		trace(level, message, null, params);
-		
+	public static void trace(Level level, String title, String message) {
+		trace(level, title, message, null);
 	}
 }
