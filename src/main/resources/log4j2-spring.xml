@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+	<Properties>
+		<Property name="log-path">target</Property>
+	</Properties>
+	<Appenders>
+		<Console name="Console-Appender" target="SYSTEM_OUT">
+			<PatternLayout>
+				<pattern>
+					[%level] %d{yyyy-MM-dd HH:mm:ss.SSS} %c{1} - %msg %n
+				</pattern>
+				>
+			</PatternLayout>
+		</Console>
+		<Console name="BusinessConsole" target="SYSTEM_OUT">
+			<PatternLayout>
+				<pattern>
+					[%level];%d{yyyy-MM-dd HH:mm:ss.SSS};%c{1};%X{conversationId};%X{consumerName};%X{serviceName}.%X{operationName} v%X{version};%msg %n
+				</pattern>
+			</PatternLayout>
+		</Console>
+		<File name="App-File-Appender" fileName="${log-path}/app_log.log">
+			<PatternLayout>
+				<pattern>
+					[%level];%d{yyyy-MM-dd HH:mm:ss.SSS};%c{1};%X{conversationId};%X{consumerName};%X{serviceName}.%X{operationName} v%X{version};%msg %n
+				</pattern>
+			</PatternLayout>
+		</File>
+	</Appenders>
+	<Loggers>
+		<Logger name="fr.trandutrieu.remy.springbootjaxws.socle.audit" level="ALL" additivity="false">
+			<AppenderRef ref="App-File-Appender" />
+			<AppenderRef ref="BusinessConsole" />
+		</Logger>
+
+
+		<Root level="INFO">
+			<AppenderRef ref="Console-Appender" />
+		</Root>
+	</Loggers>
+</Configuration>

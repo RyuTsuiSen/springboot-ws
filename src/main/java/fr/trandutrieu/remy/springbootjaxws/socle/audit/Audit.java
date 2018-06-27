@@ -3,32 +3,58 @@ package fr.trandutrieu.remy.springbootjaxws.socle.audit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fr.trandutrieu.remy.springbootjaxws.socle.context.ContextManager;
-
 public class Audit {
 	private static final Logger LOG = LoggerFactory.getLogger(Audit.class);
 	
 	public static void trace(Level level,  String message, Throwable e, String... param) {
 		
-		StringBuilder fullMessage = new StringBuilder();
-		fullMessage.append(ContextManager.get().getConversationID()).append("-").append(ContextManager.get().getCaller()).append("-").append(ContextManager.get().getRequestedService())
-		.append("?").append(ContextManager.get().getRequestedOperation()).append("v").append(ContextManager.get().getVersionService()).append("-").append(message);
+		StringBuilder fullMessage = new StringBuilder(message);
+		if (e != null){
+			fullMessage.append(" | ").append(getStackTrace(e));
+		}
 		switch (level) {
 		case DEBUG:
-			LOG.debug(fullMessage.toString(), e);
+			LOG.debug(fullMessage.toString());
 			break;
 		case INFO:
-			LOG.info(fullMessage.toString(), e);
+			LOG.info(fullMessage.toString());
 			break;
 		case WARNING:
-			LOG.warn(fullMessage.toString(), e);
+			LOG.warn(fullMessage.toString());
 			break;
 		case ERROR:
-			LOG.error(fullMessage.toString(), e);
+			LOG.error(fullMessage.toString());
 			break;
 		default:
 			break;
 		}
+	}
+	
+	/**
+	 * Mï¿½thode que permet de mettre ï¿½ plat la stack trace dans une chaine de caractï¿½re.
+	 * 
+	 * @param throwable
+	 * 
+	 * @return
+	 */
+	private static String getStackTrace(final Throwable throwable) {
+		StringBuilder stack = new StringBuilder("");
+		if (throwable != null){
+			stack.append(throwable.toString()).append(" ");
+			if (throwable.getStackTrace() != null && throwable.getStackTrace().length != 0){
+				int stackDepth = 5; 
+				for(int i=0 ; i<stackDepth ; i++){
+					String className = throwable.getStackTrace()[i].getClassName();
+					String fileName = throwable.getStackTrace()[i].getFileName();
+					String methodName = throwable.getStackTrace()[i].getMethodName();
+					Integer line = throwable.getStackTrace()[i].getLineNumber();
+
+					stack.append(" at " + className + "." + methodName + "(" + fileName + ":" + line + ")");
+				}
+			}
+		}
+
+		return stack.toString();
 	}
 	
 	public enum Level{

@@ -18,6 +18,7 @@ import javax.xml.ws.handler.soap.SOAPHandler;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
 import org.apache.cxf.jaxws.handler.soap.SOAPMessageContextImpl;
+import org.slf4j.MDC;
 import org.springframework.util.StringUtils;
 import org.w3c.dom.Node;
 
@@ -57,11 +58,21 @@ public class AuditInOutHandler implements SOAPHandler<SOAPMessageContextImpl> {
 			}
 			bean.setCaller(username);
 			
+			initMDC();
+			
 			Audit.trace(Level.INFO, "IN | SERVICE");
 		}
 
 		return true;
 		
+	}
+
+	private void initMDC() {
+		MDC.put("conversationId", ContextManager.get().getConversationID());
+		MDC.put("serviceName", ContextManager.get().getRequestedService());
+		MDC.put("operationName", ContextManager.get().getRequestedOperation());
+		MDC.put("version", ContextManager.get().getVersionService());
+		MDC.put("consumerName", ContextManager.get().getCaller());
 	}
 
 	private void buildSoapFault(final SOAPMessageContextImpl mc) {
