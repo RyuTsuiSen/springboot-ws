@@ -18,12 +18,6 @@
 			<handler-class>fr.trandutrieu.remy.springbootjaxws.socle.handlers.AuthenticationHandler
 			</handler-class>
 		</handler>
-
-		<handler>
-			<handler-name>InitializeContext</handler-name>
-			<handler-class>fr.trandutrieu.remy.springbootjaxws.socle.handlers.InitializeContextHandler
-			</handler-class>
-		</handler>
 		
 		<handler>
 			<handler-name>AuditInOut</handler-name>
