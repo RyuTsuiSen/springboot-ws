@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="cc557ca3-3b52-4610-af75-a786e6e2a635" activeEnvironment="Default" name="Hello?wsdl" soapui-version="5.4.0" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="32579f9e-7138-472d-a1f3-9410e411de8a" wsaVersion="NONE" name="HelloPortImplServiceSoapBinding" type="wsdl" bindingName="{http://hello.application.springbootjaxws.remy.trandutrieu.fr/}HelloPortImplServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/Service/Hello?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/Service/Hello?wsdl"><con:part><con:url>http://localhost:8080/Service/Hello?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="HelloPortImplService" targetNamespace="http://hello.application.springbootjaxws.remy.trandutrieu.fr/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://hello.application.springbootjaxws.remy.trandutrieu.fr/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http">
+  <wsdl:types>
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://hello.application.springbootjaxws.remy.trandutrieu.fr/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="sayBusinessException" type="tns:sayBusinessException"/>
+      <xs:element name="sayBusinessExceptionResponse" type="tns:sayBusinessExceptionResponse"/>
+      <xs:element name="sayHello" type="tns:sayHello"/>
+      <xs:element name="sayHelloResponse" type="tns:sayHelloResponse"/>
+      <xs:element name="sayRuntimeException" type="tns:sayRuntimeException"/>
+      <xs:element name="sayRuntimeExceptionResponse" type="tns:sayRuntimeExceptionResponse"/>
+      <xs:complexType name="sayHello">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="sayHelloResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:businessResponse"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="businessResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="code" type="xs:string"/>
+          <xs:element minOccurs="0" name="label" type="xs:string"/>
+          <xs:element minOccurs="0" name="reponse" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="sayRuntimeException">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="sayRuntimeExceptionResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:businessResponse"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="sayBusinessException">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="sayBusinessExceptionResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:businessResponse"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="BusinessException" type="tns:BusinessException"/>
+      <xs:complexType name="BusinessException">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="sayHelloResponse">
+    <wsdl:part element="tns:sayHelloResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sayRuntimeException">
+    <wsdl:part element="tns:sayRuntimeException" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sayBusinessExceptionResponse">
+    <wsdl:part element="tns:sayBusinessExceptionResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="BusinessException">
+    <wsdl:part element="tns:BusinessException" name="BusinessException"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sayHello">
+    <wsdl:part element="tns:sayHello" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sayRuntimeExceptionResponse">
+    <wsdl:part element="tns:sayRuntimeExceptionResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sayBusinessException">
+    <wsdl:part element="tns:sayBusinessException" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="Hello">
+    <wsdl:operation name="sayHello">
+      <wsdl:input message="tns:sayHello" name="sayHello"></wsdl:input>
+      <wsdl:output message="tns:sayHelloResponse" name="sayHelloResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="sayRuntimeException">
+      <wsdl:input message="tns:sayRuntimeException" name="sayRuntimeException"></wsdl:input>
+      <wsdl:output message="tns:sayRuntimeExceptionResponse" name="sayRuntimeExceptionResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="sayBusinessException">
+      <wsdl:input message="tns:sayBusinessException" name="sayBusinessException"></wsdl:input>
+      <wsdl:output message="tns:sayBusinessExceptionResponse" name="sayBusinessExceptionResponse"></wsdl:output>
+      <wsdl:fault message="tns:BusinessException" name="BusinessException"></wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="HelloPortImplServiceSoapBinding" type="tns:Hello">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="sayHello">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="sayHello">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="sayHelloResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="sayRuntimeException">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="sayRuntimeException">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="sayRuntimeExceptionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="sayBusinessException">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="sayBusinessException">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="sayBusinessExceptionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="BusinessException">
+        <soap:fault name="BusinessException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="HelloPortImplService">
+    <wsdl:port binding="tns:HelloPortImplServiceSoapBinding" name="HelloPortImplPort">
+      <soap:address location="http://localhost:8080/Service/Hello"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/Service/Hello</con:endpoint></con:endpoints><con:operation id="a572109a-5d9c-4389-8296-93c8f7d0a489" isOneWay="false" action="" name="sayBusinessException" bindingOperationName="sayBusinessException" type="Request-Response" outputName="sayBusinessExceptionResponse" inputName="sayBusinessException" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="827e0f12-0090-4e0b-9a8b-edfd85019cc3" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="username" value="EIP" xmlns="http://eviware.com/soapui/config"/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/Service/Hello</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:hel="http://hello.application.springbootjaxws.remy.trandutrieu.fr/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <hel:sayBusinessException/>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://hello.application.springbootjaxws.remy.trandutrieu.fr/Hello/sayBusinessException"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="045ab6c0-925a-4ba1-a57f-42dac75c3391" isOneWay="false" action="" name="sayHello" bindingOperationName="sayHello" type="Request-Response" outputName="sayHelloResponse" inputName="sayHello" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="e9533497-3e75-4bca-9ecc-6d95cdbbd2e6" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="username" value="EIP_NG" xmlns="http://eviware.com/soapui/config"/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/Service/Hello</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:hel="http://hello.application.springbootjaxws.remy.trandutrieu.fr/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <hel:sayHello>
+         <!--Optional:-->
+         <arg0>?</arg0>
+      </hel:sayHello>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://hello.application.springbootjaxws.remy.trandutrieu.fr/Hello/sayHello"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="9835d422-701c-4237-814e-1ecfa90dc3d2" isOneWay="false" action="" name="sayRuntimeException" bindingOperationName="sayRuntimeException" type="Request-Response" outputName="sayRuntimeExceptionResponse" inputName="sayRuntimeException" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="9faa755b-999c-4054-8295-f1aad722ec66" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="username" value="EIP_OLD" xmlns="http://eviware.com/soapui/config"/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/Service/Hello</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:hel="http://hello.application.springbootjaxws.remy.trandutrieu.fr/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <hel:sayRuntimeException/>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://hello.application.springbootjaxws.remy.trandutrieu.fr/Hello/sayRuntimeException"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>
