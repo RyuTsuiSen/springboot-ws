@@ -10,13 +10,18 @@ import java.util.Set;
 import java.util.UUID;
 
 import javax.xml.namespace.QName;
+import javax.xml.soap.SOAPBody;
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPFault;
 import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPHandler;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
 import org.apache.cxf.jaxws.handler.soap.SOAPMessageContextImpl;
+import org.springframework.util.StringUtils;
+import org.w3c.dom.Node;
 
-import fr.trandutrieu.remy.springbootjaxws.application.WhoAmI;
+import fr.trandutrieu.remy.springbootjaxws.socle.WhoAmI;
 import fr.trandutrieu.remy.springbootjaxws.socle.audit.Audit;
 import fr.trandutrieu.remy.springbootjaxws.socle.audit.Audit.Level;
 import fr.trandutrieu.remy.springbootjaxws.socle.context.ContextBean;
@@ -33,23 +38,24 @@ public class AuditInOutHandler implements SOAPHandler<SOAPMessageContextImpl> {
 			ContextManager.remove();
 		}
 		else {
-			String username = getUsername(mc);
-			
-			QName requestedServiceName =  (QName)mc.get(SOAPMessageContext.WSDL_SERVICE);
-			QName requestedOperationName =  (QName)mc.get(SOAPMessageContext.WSDL_OPERATION);
-			
-			String requestedService =  (requestedServiceName != null && requestedServiceName.getNamespaceURI() != null) ? (requestedServiceName.getNamespaceURI() + requestedServiceName.getLocalPart()) : null;
-			String requestedOperation =  (requestedOperationName != null) ? requestedOperationName.getLocalPart() : null;
-			
-			
 			ContextBean bean = new ContextBean();
+			ContextManager.set(bean);
 			bean.setConversationID(UUID.randomUUID().toString());
 			bean.setStart(Instant.now());
-			bean.setCaller(username);
+			QName requestedServiceName =  (QName)mc.get(SOAPMessageContext.WSDL_SERVICE);
+			QName requestedOperationName =  (QName)mc.get(SOAPMessageContext.WSDL_OPERATION);
+			String requestedService =  (requestedServiceName != null && requestedServiceName.getNamespaceURI() != null) ? (requestedServiceName.getNamespaceURI() + requestedServiceName.getLocalPart()) : null;
+			String requestedOperation =  (requestedOperationName != null) ? requestedOperationName.getLocalPart() : null;
 			bean.setRequestedOperation(requestedOperation);
 			bean.setRequestedService(requestedService);
 			bean.setVersionService(WhoAmI.version);
-			ContextManager.set(bean);
+			
+			String username = getUsername(mc);
+			if (StringUtils.isEmpty(username)) {
+				buildSoapFault(mc);
+				return false;
+			}
+			bean.setCaller(username);
 			
 			Audit.trace(Level.INFO, "IN | SERVICE");
 		}
@@ -58,13 +64,33 @@ public class AuditInOutHandler implements SOAPHandler<SOAPMessageContextImpl> {
 		
 	}
 
+	private void buildSoapFault(final SOAPMessageContextImpl mc) {
+		try {
+			SOAPBody soapBody = mc.getMessage().getSOAPBody();
+			soapBody.removeContents();
+			soapBody.addFault();
+			SOAPFault fault = soapBody.getFault();
+			Node soapFaultCode = fault.getFirstChild();
+			Node faultCode = soapFaultCode.getFirstChild();
+
+			Node soapFaultString = soapFaultCode.getNextSibling();
+			Node faultString = soapFaultString.getFirstChild();
+			
+			faultCode.setNodeValue(Error.HEADERS_INVALID.getErrorCode().name());
+			faultString.setNodeValue(Error.HEADERS_INVALID.getErrorCode().getLabel());
+			
+			Audit.trace(Level.WARNING, "IN | SERVICE | HEADER UNEXPECTED");
+		} catch (SOAPException e) {
+			Audit.trace(Level.ERROR, "IN | SERVICE | HEADER ERROR", e);
+		}
+	}
+
 	private String getUsername(SOAPMessageContextImpl mc) {
 		final Map<String, List<String>> http_headers = (Map<String, List<String>>) mc.get(MessageContext.HTTP_REQUEST_HEADERS);
 		String username = http_headers.containsKey("username") ? http_headers.get("username").get(0) : null;
 		if (username == null) {
 			String authorization = http_headers.containsKey("Authorization") ? http_headers.get("Authorization").get(0) : null;
-			String[] decodeAuthorization = decode(authorization);
-			username = decodeAuthorization[0];
+			username = decode(authorization);
 		}
 		return username;
 	}
@@ -84,11 +110,13 @@ public class AuditInOutHandler implements SOAPHandler<SOAPMessageContextImpl> {
 	public void close(MessageContext context) {
 	}
 	
-	private static String[] decode(final String encoded) {
-        final byte[] decodedBytes 
-                = Base64.getDecoder().decode(encoded.getBytes());
+	private static String decode(final String encoded) {
+		if(encoded == null) {
+			return null;
+		}
+        final byte[] decodedBytes = Base64.getDecoder().decode(encoded.getBytes());
         final String pair = new String(decodedBytes);
         final String[] userDetails = pair.split(":", 2);
-        return userDetails;
+        return userDetails[0];
     }
 }

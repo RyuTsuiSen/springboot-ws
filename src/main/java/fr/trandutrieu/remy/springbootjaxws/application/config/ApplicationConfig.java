@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package fr.trandutrieu.remy.springbootjaxws.application;
+package fr.trandutrieu.remy.springbootjaxws.application.config;
 
 import javax.xml.ws.Endpoint;
 import org.apache.cxf.Bus;
@@ -30,7 +30,7 @@ import fr.trandutrieu.remy.springbootjaxws.application.bonjour.BonjourPortImpl;
 import fr.trandutrieu.remy.springbootjaxws.application.hello.HelloPortImpl;
 
 @Configuration
-public class SampleWsConfig {
+public class ApplicationConfig {
 
     @Autowired
     private Bus bus;

@@ -16,15 +16,14 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package fr.trandutrieu.remy.springbootjaxws.application;
+package fr.trandutrieu.remy.springbootjaxws.application.config;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-//CHECKSTYLE:OFF
 @SpringBootApplication
-public class SampleWsApplication {
+public class Application {
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(SampleWsApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
 }

@@ -13,21 +13,18 @@ public class Audit {
 		StringBuilder fullMessage = new StringBuilder();
 		fullMessage.append(ContextManager.get().getConversationID()).append("-").append(ContextManager.get().getCaller()).append("-").append(ContextManager.get().getRequestedService())
 		.append("?").append(ContextManager.get().getRequestedOperation()).append("v").append(ContextManager.get().getVersionService()).append("-").append(message);
-		if (e != null) {
-			fullMessage.append(" ").append(e.toString());
-		}
 		switch (level) {
 		case DEBUG:
-			LOG.debug(fullMessage.toString());
+			LOG.debug(fullMessage.toString(), e);
 			break;
 		case INFO:
-			LOG.info(fullMessage.toString());
+			LOG.info(fullMessage.toString(), e);
 			break;
 		case WARNING:
-			LOG.warn(fullMessage.toString());
+			LOG.warn(fullMessage.toString(), e);
 			break;
 		case ERROR:
-			LOG.error(fullMessage.toString());
+			LOG.error(fullMessage.toString(), e);
 			break;
 		default:
 			break;
