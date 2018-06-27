@@ -32,7 +32,8 @@ import fr.trandutrieu.remy.springbootjaxws.socle.webservice.Webservice;
 @WebService
 public interface Hello extends Webservice {
 
-    BusinessResponse sayHello(String myname);
+    public BusinessResponse sayHello(String myname);
     public BusinessResponse sayRuntimeException();
     public BusinessResponse sayBusinessException() throws BusinessException;
+    public BusinessResponse sayHelloWithExternalCall();
 }

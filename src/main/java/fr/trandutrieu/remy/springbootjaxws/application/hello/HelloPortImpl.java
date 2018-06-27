@@ -49,6 +49,12 @@ public class HelloPortImpl extends WebserviceImpl implements Hello {
 	public BusinessResponse sayBusinessException() throws BusinessException {
     	throw new BusinessException();
 	}
+
+	@Override
+	public BusinessResponse sayHelloWithExternalCall() {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
 
 }
