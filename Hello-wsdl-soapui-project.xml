@@ -1,13 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:soapui-project id="cc557ca3-3b52-4610-af75-a786e6e2a635" activeEnvironment="Default" name="Hello?wsdl" soapui-version="5.4.0" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="32579f9e-7138-472d-a1f3-9410e411de8a" wsaVersion="NONE" name="HelloPortImplServiceSoapBinding" type="wsdl" bindingName="{http://hello.application.springbootjaxws.remy.trandutrieu.fr/}HelloPortImplServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/Service/Hello?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/Service/Hello?wsdl"><con:part><con:url>http://localhost:8080/Service/Hello?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="HelloPortImplService" targetNamespace="http://hello.application.springbootjaxws.remy.trandutrieu.fr/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://hello.application.springbootjaxws.remy.trandutrieu.fr/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http">
+<con:soapui-project id="a5c33aea-28ed-47da-92af-4d0a3972c832" activeEnvironment="Default" name="Hello?wsdl" soapui-version="5.4.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="cc071743-f037-4d26-9e6e-feeb42a1bbb4" wsaVersion="NONE" name="HelloPortImplServiceSoapBinding" type="wsdl" bindingName="{http://hello.application.springbootjaxws.remy.trandutrieu.fr/}HelloPortImplServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/Service/Hello?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/Service/Hello?wsdl"><con:part><con:url>http://localhost:8080/Service/Hello?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="HelloPortImplService" targetNamespace="http://hello.application.springbootjaxws.remy.trandutrieu.fr/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://hello.application.springbootjaxws.remy.trandutrieu.fr/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http">
   <wsdl:types>
     <xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://hello.application.springbootjaxws.remy.trandutrieu.fr/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="doExternalCallWithExceptionChecked" type="tns:doExternalCallWithExceptionChecked"/>
+      <xs:element name="doExternalCallWithExceptionCheckedResponse" type="tns:doExternalCallWithExceptionCheckedResponse"/>
+      <xs:element name="doExternalCallWithInterupted" type="tns:doExternalCallWithInterupted"/>
+      <xs:element name="doExternalCallWithInteruptedResponse" type="tns:doExternalCallWithInteruptedResponse"/>
+      <xs:element name="doExternalCallWithTimeOut" type="tns:doExternalCallWithTimeOut"/>
+      <xs:element name="doExternalCallWithTimeOutResponse" type="tns:doExternalCallWithTimeOutResponse"/>
       <xs:element name="sayBusinessException" type="tns:sayBusinessException"/>
       <xs:element name="sayBusinessExceptionResponse" type="tns:sayBusinessExceptionResponse"/>
       <xs:element name="sayHello" type="tns:sayHello"/>
+      <xs:element name="sayHelloButNullPointer" type="tns:sayHelloButNullPointer"/>
+      <xs:element name="sayHelloButNullPointerResponse" type="tns:sayHelloButNullPointerResponse"/>
       <xs:element name="sayHelloResponse" type="tns:sayHelloResponse"/>
+      <xs:element name="sayHelloWithExternalCall" type="tns:sayHelloWithExternalCall"/>
+      <xs:element name="sayHelloWithExternalCallResponse" type="tns:sayHelloWithExternalCallResponse"/>
       <xs:element name="sayRuntimeException" type="tns:sayRuntimeException"/>
       <xs:element name="sayRuntimeExceptionResponse" type="tns:sayRuntimeExceptionResponse"/>
+      <xs:complexType name="doExternalCallWithExceptionChecked">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="doExternalCallWithExceptionCheckedResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:businessResponse"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="businessResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="reponse" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="sayRuntimeException">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="sayRuntimeExceptionResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:businessResponse"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="sayHelloWithExternalCall">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="sayHelloWithExternalCallResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:businessResponse"/>
+        </xs:sequence>
+      </xs:complexType>
       <xs:complexType name="sayHello">
         <xs:sequence>
           <xs:element minOccurs="0" name="arg0" type="xs:string"/>
@@ -18,17 +57,26 @@
           <xs:element minOccurs="0" name="return" type="tns:businessResponse"/>
         </xs:sequence>
       </xs:complexType>
-      <xs:complexType name="businessResponse">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="code" type="xs:string"/>
-          <xs:element minOccurs="0" name="label" type="xs:string"/>
-          <xs:element minOccurs="0" name="reponse" type="xs:string"/>
-        </xs:sequence>
-      </xs:complexType>
-      <xs:complexType name="sayRuntimeException">
+      <xs:complexType name="doExternalCallWithInterupted">
         <xs:sequence/>
       </xs:complexType>
-      <xs:complexType name="sayRuntimeExceptionResponse">
+      <xs:complexType name="doExternalCallWithInteruptedResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:businessResponse"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="sayHelloButNullPointer">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="sayHelloButNullPointerResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:businessResponse"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="doExternalCallWithTimeOut">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="doExternalCallWithTimeOutResponse">
         <xs:sequence>
           <xs:element minOccurs="0" name="return" type="tns:businessResponse"/>
         </xs:sequence>
@@ -49,20 +97,20 @@
       </xs:complexType>
     </xs:schema>
   </wsdl:types>
-  <wsdl:message name="sayHelloResponse">
-    <wsdl:part element="tns:sayHelloResponse" name="parameters"></wsdl:part>
-  </wsdl:message>
   <wsdl:message name="sayRuntimeException">
     <wsdl:part element="tns:sayRuntimeException" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="doExternalCallWithTimeOutResponse">
+    <wsdl:part element="tns:doExternalCallWithTimeOutResponse" name="parameters"></wsdl:part>
   </wsdl:message>
   <wsdl:message name="sayBusinessExceptionResponse">
     <wsdl:part element="tns:sayBusinessExceptionResponse" name="parameters"></wsdl:part>
   </wsdl:message>
+  <wsdl:message name="sayHelloButNullPointerResponse">
+    <wsdl:part element="tns:sayHelloButNullPointerResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
   <wsdl:message name="BusinessException">
     <wsdl:part element="tns:BusinessException" name="BusinessException"></wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="sayHello">
-    <wsdl:part element="tns:sayHello" name="parameters"></wsdl:part>
   </wsdl:message>
   <wsdl:message name="sayRuntimeExceptionResponse">
     <wsdl:part element="tns:sayRuntimeExceptionResponse" name="parameters"></wsdl:part>
@@ -70,14 +118,69 @@
   <wsdl:message name="sayBusinessException">
     <wsdl:part element="tns:sayBusinessException" name="parameters"></wsdl:part>
   </wsdl:message>
+  <wsdl:message name="doExternalCallWithExceptionChecked">
+    <wsdl:part element="tns:doExternalCallWithExceptionChecked" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sayHelloResponse">
+    <wsdl:part element="tns:sayHelloResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sayHelloWithExternalCall">
+    <wsdl:part element="tns:sayHelloWithExternalCall" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sayHelloWithExternalCallResponse">
+    <wsdl:part element="tns:sayHelloWithExternalCallResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="doExternalCallWithInteruptedResponse">
+    <wsdl:part element="tns:doExternalCallWithInteruptedResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="doExternalCallWithExceptionCheckedResponse">
+    <wsdl:part element="tns:doExternalCallWithExceptionCheckedResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sayHello">
+    <wsdl:part element="tns:sayHello" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="doExternalCallWithInterupted">
+    <wsdl:part element="tns:doExternalCallWithInterupted" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sayHelloButNullPointer">
+    <wsdl:part element="tns:sayHelloButNullPointer" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="doExternalCallWithTimeOut">
+    <wsdl:part element="tns:doExternalCallWithTimeOut" name="parameters"></wsdl:part>
+  </wsdl:message>
   <wsdl:portType name="Hello">
-    <wsdl:operation name="sayHello">
-      <wsdl:input message="tns:sayHello" name="sayHello"></wsdl:input>
-      <wsdl:output message="tns:sayHelloResponse" name="sayHelloResponse"></wsdl:output>
+    <wsdl:operation name="doExternalCallWithExceptionChecked">
+      <wsdl:input message="tns:doExternalCallWithExceptionChecked" name="doExternalCallWithExceptionChecked"></wsdl:input>
+      <wsdl:output message="tns:doExternalCallWithExceptionCheckedResponse" name="doExternalCallWithExceptionCheckedResponse"></wsdl:output>
+      <wsdl:fault message="tns:BusinessException" name="BusinessException"></wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="sayRuntimeException">
       <wsdl:input message="tns:sayRuntimeException" name="sayRuntimeException"></wsdl:input>
       <wsdl:output message="tns:sayRuntimeExceptionResponse" name="sayRuntimeExceptionResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="sayHelloWithExternalCall">
+      <wsdl:input message="tns:sayHelloWithExternalCall" name="sayHelloWithExternalCall"></wsdl:input>
+      <wsdl:output message="tns:sayHelloWithExternalCallResponse" name="sayHelloWithExternalCallResponse"></wsdl:output>
+      <wsdl:fault message="tns:BusinessException" name="BusinessException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="sayHello">
+      <wsdl:input message="tns:sayHello" name="sayHello"></wsdl:input>
+      <wsdl:output message="tns:sayHelloResponse" name="sayHelloResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="doExternalCallWithInterupted">
+      <wsdl:input message="tns:doExternalCallWithInterupted" name="doExternalCallWithInterupted"></wsdl:input>
+      <wsdl:output message="tns:doExternalCallWithInteruptedResponse" name="doExternalCallWithInteruptedResponse"></wsdl:output>
+      <wsdl:fault message="tns:BusinessException" name="BusinessException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="sayHelloButNullPointer">
+      <wsdl:input message="tns:sayHelloButNullPointer" name="sayHelloButNullPointer"></wsdl:input>
+      <wsdl:output message="tns:sayHelloButNullPointerResponse" name="sayHelloButNullPointerResponse"></wsdl:output>
+      <wsdl:fault message="tns:BusinessException" name="BusinessException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="doExternalCallWithTimeOut">
+      <wsdl:input message="tns:doExternalCallWithTimeOut" name="doExternalCallWithTimeOut"></wsdl:input>
+      <wsdl:output message="tns:doExternalCallWithTimeOutResponse" name="doExternalCallWithTimeOutResponse"></wsdl:output>
+      <wsdl:fault message="tns:BusinessException" name="BusinessException"></wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="sayBusinessException">
       <wsdl:input message="tns:sayBusinessException" name="sayBusinessException"></wsdl:input>
@@ -87,14 +190,17 @@
   </wsdl:portType>
   <wsdl:binding name="HelloPortImplServiceSoapBinding" type="tns:Hello">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
-    <wsdl:operation name="sayHello">
+    <wsdl:operation name="doExternalCallWithExceptionChecked">
       <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="sayHello">
+      <wsdl:input name="doExternalCallWithExceptionChecked">
         <soap:body use="literal"/>
       </wsdl:input>
-      <wsdl:output name="sayHelloResponse">
+      <wsdl:output name="doExternalCallWithExceptionCheckedResponse">
         <soap:body use="literal"/>
       </wsdl:output>
+      <wsdl:fault name="BusinessException">
+        <soap:fault name="BusinessException" use="literal"/>
+      </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="sayRuntimeException">
       <soap:operation soapAction="" style="document"/>
@@ -104,6 +210,63 @@
       <wsdl:output name="sayRuntimeExceptionResponse">
         <soap:body use="literal"/>
       </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="sayHelloWithExternalCall">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="sayHelloWithExternalCall">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="sayHelloWithExternalCallResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="BusinessException">
+        <soap:fault name="BusinessException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="sayHello">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="sayHello">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="sayHelloResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="doExternalCallWithInterupted">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="doExternalCallWithInterupted">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="doExternalCallWithInteruptedResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="BusinessException">
+        <soap:fault name="BusinessException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="sayHelloButNullPointer">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="sayHelloButNullPointer">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="sayHelloButNullPointerResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="BusinessException">
+        <soap:fault name="BusinessException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="doExternalCallWithTimeOut">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="doExternalCallWithTimeOut">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="doExternalCallWithTimeOutResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="BusinessException">
+        <soap:fault name="BusinessException" use="literal"/>
+      </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="sayBusinessException">
       <soap:operation soapAction="" style="document"/>
@@ -123,22 +286,47 @@
       <soap:address location="http://localhost:8080/Service/Hello"/>
     </wsdl:port>
   </wsdl:service>
-</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/Service/Hello</con:endpoint></con:endpoints><con:operation id="a572109a-5d9c-4389-8296-93c8f7d0a489" isOneWay="false" action="" name="sayBusinessException" bindingOperationName="sayBusinessException" type="Request-Response" outputName="sayBusinessExceptionResponse" inputName="sayBusinessException" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="827e0f12-0090-4e0b-9a8b-edfd85019cc3" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="username" value="EIP" xmlns="http://eviware.com/soapui/config"/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/Service/Hello</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:hel="http://hello.application.springbootjaxws.remy.trandutrieu.fr/">
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/Service/Hello</con:endpoint></con:endpoints><con:operation id="8d187bdf-634b-46c0-a69f-ad42c5565dd8" isOneWay="false" action="" name="doExternalCallWithExceptionChecked" bindingOperationName="doExternalCallWithExceptionChecked" type="Request-Response" outputName="doExternalCallWithExceptionCheckedResponse" inputName="doExternalCallWithExceptionChecked" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="e8816c6d-772b-4b67-a0f3-ad9799c225d2" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/Service/Hello</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:hel="http://hello.application.springbootjaxws.remy.trandutrieu.fr/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <hel:doExternalCallWithExceptionChecked/>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://hello.application.springbootjaxws.remy.trandutrieu.fr/Hello/doExternalCallWithExceptionChecked"/></con:call></con:operation><con:operation id="23a25b91-34dc-4bbe-8fb6-83d3503c6861" isOneWay="false" action="" name="doExternalCallWithInterupted" bindingOperationName="doExternalCallWithInterupted" type="Request-Response" outputName="doExternalCallWithInteruptedResponse" inputName="doExternalCallWithInterupted" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="c67cbdf2-4ef3-482f-b82a-5225529c8366" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/Service/Hello</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:hel="http://hello.application.springbootjaxws.remy.trandutrieu.fr/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <hel:doExternalCallWithInterupted/>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://hello.application.springbootjaxws.remy.trandutrieu.fr/Hello/doExternalCallWithInterupted"/></con:call></con:operation><con:operation id="e4ebb914-ba53-4090-8973-d5b34abe6481" isOneWay="false" action="" name="doExternalCallWithTimeOut" bindingOperationName="doExternalCallWithTimeOut" type="Request-Response" outputName="doExternalCallWithTimeOutResponse" inputName="doExternalCallWithTimeOut" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="a3607a4e-c6c4-4fd5-9fc7-f5f10de4ad00" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/Service/Hello</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:hel="http://hello.application.springbootjaxws.remy.trandutrieu.fr/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <hel:doExternalCallWithTimeOut/>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://hello.application.springbootjaxws.remy.trandutrieu.fr/Hello/doExternalCallWithTimeOut"/></con:call></con:operation><con:operation id="6aaabfa3-023d-4e2b-90ea-445480aa8abf" isOneWay="false" action="" name="sayBusinessException" bindingOperationName="sayBusinessException" type="Request-Response" outputName="sayBusinessExceptionResponse" inputName="sayBusinessException" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="0a2e4965-8277-4903-a994-640ad712ed72" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/Service/Hello</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:hel="http://hello.application.springbootjaxws.remy.trandutrieu.fr/">
    <soapenv:Header/>
    <soapenv:Body>
       <hel:sayBusinessException/>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://hello.application.springbootjaxws.remy.trandutrieu.fr/Hello/sayBusinessException"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="045ab6c0-925a-4ba1-a57f-42dac75c3391" isOneWay="false" action="" name="sayHello" bindingOperationName="sayHello" type="Request-Response" outputName="sayHelloResponse" inputName="sayHello" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="e9533497-3e75-4bca-9ecc-6d95cdbbd2e6" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="username" value="EIP_NG" xmlns="http://eviware.com/soapui/config"/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/Service/Hello</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:hel="http://hello.application.springbootjaxws.remy.trandutrieu.fr/">
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://hello.application.springbootjaxws.remy.trandutrieu.fr/Hello/sayBusinessException"/></con:call></con:operation><con:operation id="bec07212-6a9c-46e6-ac44-95a3dced8825" isOneWay="false" action="" name="sayHello" bindingOperationName="sayHello" type="Request-Response" outputName="sayHelloResponse" inputName="sayHello" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="a1751103-e7b0-424d-aeb6-2b90130f96e3" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="username" value="EIP" xmlns="http://eviware.com/soapui/config"/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/Service/Hello</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:hel="http://hello.application.springbootjaxws.remy.trandutrieu.fr/">
    <soapenv:Header/>
    <soapenv:Body>
       <hel:sayHello>
          <!--Optional:-->
-         <arg0>?</arg0>
+         <arg0>fzfezfez</arg0>
       </hel:sayHello>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://hello.application.springbootjaxws.remy.trandutrieu.fr/Hello/sayHello"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="9835d422-701c-4237-814e-1ecfa90dc3d2" isOneWay="false" action="" name="sayRuntimeException" bindingOperationName="sayRuntimeException" type="Request-Response" outputName="sayRuntimeExceptionResponse" inputName="sayRuntimeException" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="9faa755b-999c-4054-8295-f1aad722ec66" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="username" value="EIP_OLD" xmlns="http://eviware.com/soapui/config"/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/Service/Hello</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:hel="http://hello.application.springbootjaxws.remy.trandutrieu.fr/">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://hello.application.springbootjaxws.remy.trandutrieu.fr/Hello/sayHello"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="444bd768-ed9a-4db1-aabd-46e52b519984" isOneWay="false" action="" name="sayHelloButNullPointer" bindingOperationName="sayHelloButNullPointer" type="Request-Response" outputName="sayHelloButNullPointerResponse" inputName="sayHelloButNullPointer" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="406bf225-4a49-4af7-aced-a58647c7df83" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/Service/Hello</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:hel="http://hello.application.springbootjaxws.remy.trandutrieu.fr/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <hel:sayHelloButNullPointer/>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://hello.application.springbootjaxws.remy.trandutrieu.fr/Hello/sayHelloButNullPointer"/></con:call></con:operation><con:operation id="b888f17b-b8ef-4d73-835e-2b6ca8bbe6d2" isOneWay="false" action="" name="sayHelloWithExternalCall" bindingOperationName="sayHelloWithExternalCall" type="Request-Response" outputName="sayHelloWithExternalCallResponse" inputName="sayHelloWithExternalCall" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="e9f42bd2-098e-4144-9392-b1d27450c644" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="username" value="EIP" xmlns="http://eviware.com/soapui/config"/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/Service/Hello</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:hel="http://hello.application.springbootjaxws.remy.trandutrieu.fr/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <hel:sayHelloWithExternalCall/>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://hello.application.springbootjaxws.remy.trandutrieu.fr/Hello/sayHelloWithExternalCall"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="33ba849f-8b66-4c87-bd24-1ea0aab0b5ba" isOneWay="false" action="" name="sayRuntimeException" bindingOperationName="sayRuntimeException" type="Request-Response" outputName="sayRuntimeExceptionResponse" inputName="sayRuntimeException" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="aaa5746b-d42d-492b-a92b-93308003a6dd" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/Service/Hello</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:hel="http://hello.application.springbootjaxws.remy.trandutrieu.fr/">
    <soapenv:Header/>
    <soapenv:Body>
       <hel:sayRuntimeException/>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://hello.application.springbootjaxws.remy.trandutrieu.fr/Hello/sayRuntimeException"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://hello.application.springbootjaxws.remy.trandutrieu.fr/Hello/sayRuntimeException"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>
