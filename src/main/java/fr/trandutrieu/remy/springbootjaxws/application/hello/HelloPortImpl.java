@@ -23,6 +23,9 @@ import javax.jws.WebService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.netflix.config.DynamicPropertyFactory;
+import com.netflix.config.DynamicStringProperty;
+
 import fr.trandutrieu.remy.springbootjaxws.application.hello.call.IT568;
 import fr.trandutrieu.remy.springbootjaxws.socle.exceptions.BusinessException;
 import fr.trandutrieu.remy.springbootjaxws.socle.externalcall.AdapterCall.TYPE_APPEL;
@@ -37,9 +40,9 @@ public class HelloPortImpl extends WebserviceImpl implements Hello {
 	private IT568 it568;
 	
     public BusinessResponse sayHello(String myname) {
-    	
+    	DynamicStringProperty sampleProp = DynamicPropertyFactory.getInstance().getStringProperty("stringprop", "");
     	BusinessResponse reponse = new BusinessResponse();
-    	reponse.setReponse("Hello, Welcome to CXF Spring boot " + myname + "!!!");
+    	reponse.setReponse("Hello, Welcome " + sampleProp.get() + "!!!");
     	return reponse;
     }
 
