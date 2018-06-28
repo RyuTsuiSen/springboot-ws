@@ -20,6 +20,8 @@ package fr.trandutrieu.remy.springbootjaxws.application.bonjour;
 
 import javax.jws.WebService;
 
+import org.springframework.stereotype.Component;
+
 import fr.trandutrieu.remy.springbootjaxws.socle.exceptions.BusinessException;
 import fr.trandutrieu.remy.springbootjaxws.socle.webservice.BusinessResponse;
 import fr.trandutrieu.remy.springbootjaxws.socle.webservice.WebserviceImpl;
@@ -31,6 +33,7 @@ import fr.trandutrieu.remy.springbootjaxws.socle.webservice.WebserviceImpl;
  */
 
 @WebService
+@Component
 public class BonjourPortImpl extends WebserviceImpl implements Bonjour {
 
     public BusinessResponse disBonjour(String myname) {

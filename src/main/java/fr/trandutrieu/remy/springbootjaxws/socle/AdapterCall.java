@@ -7,15 +7,12 @@ import com.netflix.hystrix.exception.HystrixRuntimeException;
 
 import fr.trandutrieu.remy.springbootjaxws.socle.audit.Audit;
 import fr.trandutrieu.remy.springbootjaxws.socle.audit.Audit.Level;
-import fr.trandutrieu.remy.springbootjaxws.socle.context.ContextManager;
 import fr.trandutrieu.remy.springbootjaxws.socle.exceptions.BusinessException;
 
 public abstract class AdapterCall {
 
 	private static final String ADAPTER_CALL = "ADAPTER CALL";
 
-	public AdapterCall() {}
-	
 	public ExternalCallResponse execute(ExternalCallRequest request, TYPE_APPEL typeAppel) throws BusinessException {
 		Instant start = Instant.now();
 		
@@ -47,7 +44,7 @@ public abstract class AdapterCall {
 		}
 	}
 
-	private void handleCheckedException(TYPE_APPEL typeAppel) throws BusinessException{
+	protected void handleCheckedException(TYPE_APPEL typeAppel) throws BusinessException{
 		if(typeAppel.equals(TYPE_APPEL.CHECKED_EXCEPTION)) {
 			BusinessException e = new BusinessException("0008=Personne non trouve");
 			throw e;

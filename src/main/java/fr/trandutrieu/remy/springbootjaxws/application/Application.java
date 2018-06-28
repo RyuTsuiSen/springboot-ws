@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package fr.trandutrieu.remy.springbootjaxws.application.config;
+package fr.trandutrieu.remy.springbootjaxws.application;
 
 import javax.xml.ws.Endpoint;
 
@@ -35,15 +35,15 @@ public class Application extends ApplicationAbstract{
     }
 
     @Bean
-    public Endpoint endpoint() {
-        EndpointImpl endpoint = new EndpointImpl(this.bus, new HelloPortImpl());
+    public Endpoint endpoint(HelloPortImpl helloPortImpl) {
+        EndpointImpl endpoint = new EndpointImpl(this.bus,  helloPortImpl);
         endpoint.publish("/Hello");
         return endpoint;
     }
     
     @Bean
-    public Endpoint bonjourEndPoint() {
-        EndpointImpl endpoint = new EndpointImpl(this.bus, new BonjourPortImpl());
+    public Endpoint bonjourEndPoint(BonjourPortImpl helloPortImpl) {
+        EndpointImpl endpoint = new EndpointImpl(this.bus, helloPortImpl);
         endpoint.publish("/Bonjour");
         return endpoint;
     }  
