@@ -32,8 +32,10 @@
 			<AppenderRef ref="App-File-Appender" />
 			<AppenderRef ref="BusinessConsole" />
 		</Logger>
-
-
+		<Logger name="org.apache.cxf.phase.PhaseInterceptorChain" level="OFF" additivity="false">
+		</Logger>
+		<Logger name="com.netflix.config" level="OFF" additivity="false">
+		</Logger>
 		<Root level="INFO">
 			<AppenderRef ref="Console-Appender" />
 		</Root>
