@@ -20,6 +20,8 @@ package fr.trandutrieu.remy.springbootjaxws.application.hello;
 
 import javax.jws.WebService;
 
+import fr.trandutrieu.remy.springbootjaxws.application.hello.call.IT568;
+import fr.trandutrieu.remy.springbootjaxws.socle.AdapterCall.TYPE_APPEL;
 import fr.trandutrieu.remy.springbootjaxws.socle.exceptions.BusinessException;
 import fr.trandutrieu.remy.springbootjaxws.socle.webservice.BusinessResponse;
 import fr.trandutrieu.remy.springbootjaxws.socle.webservice.WebserviceImpl;
@@ -36,8 +38,6 @@ public class HelloPortImpl extends WebserviceImpl implements Hello {
     public BusinessResponse sayHello(String myname) {
     	BusinessResponse reponse = new BusinessResponse();
     	reponse.setReponse("Hello, Welcome to CXF Spring boot " + myname + "!!!");
-    	reponse.setCode("000");
-    	reponse.setLabel("OK");
     	return reponse;
     }
 
@@ -51,9 +51,43 @@ public class HelloPortImpl extends WebserviceImpl implements Hello {
 	}
 
 	@Override
-	public BusinessResponse sayHelloWithExternalCall() {
-		// TODO Auto-generated method stub
-		return null;
+	public BusinessResponse sayHelloWithExternalCall() throws BusinessException {
+		IT568 adapter = new IT568();
+		adapter.execute(null, TYPE_APPEL.OK);
+    	BusinessResponse reponse = new BusinessResponse();
+    	reponse.setReponse(adapter.getClass().getSimpleName() + " " + TYPE_APPEL.OK + "!!!");
+		return reponse;
+	}
+	
+
+	@Override
+	public BusinessResponse sayHelloButNullPointer() throws BusinessException {
+		IT568 adapter = new IT568();
+		adapter.execute(null, TYPE_APPEL.ERREUR_DEV);
+    	BusinessResponse reponse = new BusinessResponse();
+    	reponse.setReponse("Hello, Welcome to CXF Spring boot " + TYPE_APPEL.ERREUR_DEV + "!!!");
+		return reponse;
+	}
+
+	@Override
+	public BusinessResponse doExternalCallWithTimeOut() throws BusinessException {
+		IT568 adapter = new IT568();
+		adapter.execute(null, TYPE_APPEL.TIMEOUT);
+		throw new UnsupportedOperationException("ne devrait pas passer par ici");
+	}
+
+	@Override
+	public BusinessResponse doExternalCallWithInterupted() throws BusinessException {
+		IT568 adapter = new IT568();
+		adapter.execute(null, TYPE_APPEL.EXECUTION_ISSUE);
+    	throw new UnsupportedOperationException("ne devrait pas passer par ici");
+	}
+
+	@Override
+	public BusinessResponse doExternalCallWithExceptionChecked() throws BusinessException {
+		IT568 adapter = new IT568();
+		adapter.execute(null, TYPE_APPEL.CHECKED_EXCEPTION);
+		throw new UnsupportedOperationException("ne devrait pas passer par ici");
 	}
     
 

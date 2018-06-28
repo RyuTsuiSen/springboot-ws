@@ -35,5 +35,9 @@ public interface Hello extends Webservice {
     public BusinessResponse sayHello(String myname);
     public BusinessResponse sayRuntimeException();
     public BusinessResponse sayBusinessException() throws BusinessException;
-    public BusinessResponse sayHelloWithExternalCall();
+    public BusinessResponse sayHelloWithExternalCall() throws BusinessException; //OK
+	public BusinessResponse sayHelloButNullPointer() throws BusinessException; //	ERREUR_DEV
+	public BusinessResponse doExternalCallWithTimeOut() throws BusinessException; //TIMEOUT
+	public BusinessResponse doExternalCallWithInterupted() throws BusinessException; //	EXECUTION_ISSUE,
+	public BusinessResponse doExternalCallWithExceptionChecked() throws BusinessException; // CHECKED_EXCEPTION
 }

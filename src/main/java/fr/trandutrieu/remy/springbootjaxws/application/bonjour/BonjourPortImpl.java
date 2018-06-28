@@ -36,8 +36,6 @@ public class BonjourPortImpl extends WebserviceImpl implements Bonjour {
     public BusinessResponse disBonjour(String myname) {
     	BusinessResponse reponse = new BusinessResponse();
     	reponse.setReponse("Bonjour, Bienvenue a CXF Spring boot " + myname + "!!!");
-    	reponse.setCode("000");
-    	reponse.setLabel("OK");
     	return reponse;
     }
     
