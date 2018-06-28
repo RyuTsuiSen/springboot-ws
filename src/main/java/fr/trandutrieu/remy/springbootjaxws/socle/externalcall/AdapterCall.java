@@ -4,6 +4,8 @@ import java.time.Duration;
 import java.time.Instant;
 
 import com.netflix.hystrix.exception.HystrixRuntimeException;
+import com.netflix.hystrix.strategy.HystrixPlugins;
+import com.netflix.hystrix.strategy.concurrency.HystrixRequestContext;
 
 import fr.trandutrieu.remy.springbootjaxws.socle.audit.Audit;
 import fr.trandutrieu.remy.springbootjaxws.socle.audit.Audit.Level;
@@ -11,11 +13,21 @@ import fr.trandutrieu.remy.springbootjaxws.socle.exceptions.BusinessException;
 
 public abstract class AdapterCall {
 
+	static {
+		try{
+			HystrixPlugins.getInstance().registerConcurrencyStrategy(new ConnectorContextConcurrencyStrategy());
+		}
+		catch(IllegalStateException e){
+			//logger.error("ANORMAL SAUF POUR LES TESTS UNITAIRES : Ne devrait jamais arriver, la strategie {} a ete defini au lieu de {}", HystrixPlugins.getInstance().getConcurrencyStrategy().getClass().getName(), ConnectorContextConcurrencyStrategy.class.getName(), e);
+		}
+
+	}
 	private static final String ADAPTER_CALL = "ADAPTER CALL";
 
 	public ExternalCallResponse execute(ExternalCallRequest request, TYPE_APPEL typeAppel) throws BusinessException {
 		Instant start = Instant.now();
 		
+		HystrixRequestContext context = HystrixRequestContext.initializeContext();
 		try {
 			ExternalCall external = new ExternalCall(typeAppel);
 			ExternalCallResponse response =  external.execute();
@@ -34,6 +46,9 @@ public abstract class AdapterCall {
 			Duration duration = Duration.between(start, Instant.now());
 			Audit.trace(Level.ERROR, ADAPTER_CALL, this.getClass().getSimpleName() + " s'est interrompu execTime=" + duration.toMillis() + "ms");
 			throw e;
+		}
+		finally {
+			context.close();
 		}
 	}
 
