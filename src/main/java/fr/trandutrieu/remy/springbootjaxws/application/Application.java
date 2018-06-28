@@ -21,6 +21,7 @@ package fr.trandutrieu.remy.springbootjaxws.application;
 import javax.xml.ws.Endpoint;
 
 import org.apache.cxf.jaxws.EndpointImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.annotation.Bean;
 
@@ -33,10 +34,13 @@ public class Application extends ApplicationAbstract{
     public static void main(String[] args) throws Exception {
         SpringApplication.run(Application.class, args);
     }
-
+    
+    @Autowired
+    private HelloPortImpl hello;
+    
     @Bean
-    public Endpoint endpoint(HelloPortImpl helloPortImpl) {
-        EndpointImpl endpoint = new EndpointImpl(this.bus,  helloPortImpl);
+    public Endpoint endpoint() {
+        EndpointImpl endpoint = new EndpointImpl(this.bus,  hello);
         endpoint.publish("/Hello");
         return endpoint;
     }

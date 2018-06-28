@@ -1,4 +1,4 @@
-package fr.trandutrieu.remy.springbootjaxws.socle;
+package fr.trandutrieu.remy.springbootjaxws.socle.externalcall;
 
 import java.time.Duration;
 import java.time.Instant;

@@ -2,7 +2,7 @@ package fr.trandutrieu.remy.springbootjaxws.application.hello.call;
 
 import org.springframework.stereotype.Component;
 
-import fr.trandutrieu.remy.springbootjaxws.socle.AdapterCall;
+import fr.trandutrieu.remy.springbootjaxws.socle.externalcall.AdapterCall;
 
 @Component
 public class IT568 extends AdapterCall {

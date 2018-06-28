@@ -1,10 +1,10 @@
-package fr.trandutrieu.remy.springbootjaxws.socle;
+package fr.trandutrieu.remy.springbootjaxws.socle.externalcall;
 
 import com.netflix.hystrix.HystrixCommand;
 import com.netflix.hystrix.HystrixCommandGroupKey;
 import com.netflix.hystrix.HystrixCommandProperties;
 
-import fr.trandutrieu.remy.springbootjaxws.socle.AdapterCall.TYPE_APPEL;
+import fr.trandutrieu.remy.springbootjaxws.socle.externalcall.AdapterCall.TYPE_APPEL;
 
 public class ExternalCall extends HystrixCommand<ExternalCallResponse> {
 
