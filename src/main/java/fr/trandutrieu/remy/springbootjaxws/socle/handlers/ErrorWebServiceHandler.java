@@ -14,6 +14,8 @@ import org.apache.cxf.jaxws.handler.soap.SOAPMessageContextImpl;
 import org.apache.cxf.message.Message;
 import org.w3c.dom.Node;
 
+import com.netflix.hystrix.exception.HystrixRuntimeException;
+
 import fr.trandutrieu.remy.springbootjaxws.socle.audit.Audit;
 import fr.trandutrieu.remy.springbootjaxws.socle.audit.Audit.Level;
 import fr.trandutrieu.remy.springbootjaxws.socle.exceptions.BusinessException;
@@ -46,11 +48,18 @@ public class ErrorWebServiceHandler implements SOAPHandler<SOAPMessageContextImp
 
 			if (cause instanceof BusinessException) {
 				faultCode.setNodeValue(Error.ERROR_BUSINESS.getErrorCode().name());
-				faultString.setNodeValue(cause.getMessage());
+				faultString.setNodeValue(Error.ERROR_BUSINESS.getErrorCode().getLabel() + " " + cause.getMessage());
 			}
 			else if (cause instanceof Throwable) {
-				faultCode.setNodeValue(Error.ERROR_SERVER.getErrorCode().name());
-				faultString.setNodeValue(cause.getMessage());
+				if (cause instanceof HystrixRuntimeException) {
+					cause = cause.getCause();
+					faultCode.setNodeValue(Error.ERROR_EXTERNAL_CALL.getErrorCode().name());
+					faultString.setNodeValue(Error.ERROR_EXTERNAL_CALL.getErrorCode().getLabel());
+				}
+				else if(cause instanceof RuntimeException) {
+					faultCode.setNodeValue(Error.ERROR_SERVER.getErrorCode().name());
+					faultString.setNodeValue(Error.ERROR_SERVER.getErrorCode().getLabel());
+				}
 			}
 			Audit.trace(Level.ERROR, EXCEPTION_HANDLER, "Detail erreur", cause);
 		} catch (SOAPException e) {

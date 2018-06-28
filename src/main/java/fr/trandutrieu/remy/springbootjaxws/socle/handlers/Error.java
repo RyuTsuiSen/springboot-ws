@@ -5,7 +5,8 @@ enum Error {
 	ERROR_SERVER(ErrorCode.ERR_001),
 	ERROR_BUSINESS(ErrorCode.ERR_002),
 	AUTHORIZATION_ERROR(ErrorCode.ERR_003),
-	AUTHENTICATION_ERROR(ErrorCode.ERR_004);
+	AUTHENTICATION_ERROR(ErrorCode.ERR_004),
+	ERROR_EXTERNAL_CALL(ErrorCode.ERR_005);
 	
 	private ErrorCode errorCode;
 	
@@ -19,10 +20,11 @@ enum Error {
 
 	enum ErrorCode{
 		ERR_000("Headers incorrectes"),
-		ERR_001("Erreur server"),
+		ERR_001("Une erreur est survenue, veuillez nous contacter"),
 		ERR_002("Erreur business"),
 		ERR_003("Authorization error"),
-		ERR_004("Authentication error");
+		ERR_004("Authentication error"),
+		ERR_005("Une erreur est survenue dans un appel externe, veuillez nous contacter");
 		private String label;
 		ErrorCode(String label){
 			this.label = label;
