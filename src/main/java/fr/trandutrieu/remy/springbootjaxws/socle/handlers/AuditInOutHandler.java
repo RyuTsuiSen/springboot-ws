@@ -22,8 +22,6 @@ import org.slf4j.MDC;
 import org.springframework.util.StringUtils;
 import org.w3c.dom.Node;
 
-import com.netflix.hystrix.strategy.concurrency.HystrixRequestContext;
-
 import fr.trandutrieu.remy.springbootjaxws.socle.WhoAmI;
 import fr.trandutrieu.remy.springbootjaxws.socle.audit.Audit;
 import fr.trandutrieu.remy.springbootjaxws.socle.audit.Audit.Level;
@@ -35,8 +33,6 @@ public class AuditInOutHandler implements SOAPHandler<SOAPMessageContextImpl> {
 	private static final String IN_SERVICE = "SERVICE IN";
 	private static final String OUT_SERVICE = "SERVICE OUT";
 	
-	private HystrixRequestContext context;
-	
 	public boolean handleMessage(SOAPMessageContextImpl mc) {
 		
 		
@@ -44,9 +40,6 @@ public class AuditInOutHandler implements SOAPHandler<SOAPMessageContextImpl> {
 		if (outboundProperty.booleanValue()) {
 			Duration duration = Duration.between(ContextManager.get().getStart(), Instant.now());
 			Audit.trace(Level.INFO, OUT_SERVICE, "execTime = " + duration.toMillis() + "ms");
-			if(context != null) {
-				context.close();
-			}
 			ContextManager.remove();
 			MDC.clear();
 		}
@@ -89,7 +82,6 @@ public class AuditInOutHandler implements SOAPHandler<SOAPMessageContextImpl> {
 				return false;
 			}
 			bean.setCaller(username);
-			context = HystrixRequestContext.initializeContext();
 			initMDC();
 			Audit.trace(Level.INFO, IN_SERVICE, "");
 		}
@@ -150,9 +142,6 @@ public class AuditInOutHandler implements SOAPHandler<SOAPMessageContextImpl> {
 		Audit.trace(Level.ERROR, OUT_SERVICE, "execTime = " + duration.toMillis() + "ms");
 		ContextManager.remove();
 		MDC.clear();
-		if(context != null) {
-			context.close();
-		}
 		return true;
 	}
 
