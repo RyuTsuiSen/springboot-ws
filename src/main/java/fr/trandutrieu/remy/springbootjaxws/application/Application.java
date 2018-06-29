@@ -24,6 +24,7 @@ import org.apache.commons.configuration.AbstractConfiguration;
 import org.apache.commons.configuration.event.ConfigurationEvent;
 import org.apache.commons.configuration.event.ConfigurationListener;
 import org.apache.cxf.jaxws.EndpointImpl;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.annotation.Bean;
@@ -33,8 +34,6 @@ import com.netflix.config.jmx.ConfigJMXManager;
 
 import fr.trandutrieu.remy.springbootjaxws.application.bonjour.BonjourPortImpl;
 import fr.trandutrieu.remy.springbootjaxws.application.hello.HelloPortImpl;
-import fr.trandutrieu.remy.springbootjaxws.socle.audit.Audit;
-import fr.trandutrieu.remy.springbootjaxws.socle.audit.Audit.Level;
 import fr.trandutrieu.remy.springbootjaxws.socle.webservice.ApplicationAbstract;
 
 
@@ -49,7 +48,7 @@ public class Application extends ApplicationAbstract{
 			public void configurationChanged(ConfigurationEvent event) {
 				if(event.isBeforeUpdate()) {
 					AbstractConfiguration manager = ConfigurationManager.getConfigInstance();
-					Audit.trace(Level.DEBUG, "PROPERTIES", "Quelqu'un a changé la valeur de " + event.getPropertyName() + " : [old="+ manager.getString(event.getPropertyName(), "ERROR") +"] / [new="+ event.getPropertyValue()+"] ");
+					LoggerFactory.getLogger("AUDIT.PROPERTIES").trace("Quelqu'un a change la valeur de " + event.getPropertyName() + " : [old="+ manager.getString(event.getPropertyName(), "ERROR") +"] / [new="+ event.getPropertyValue()+"] ");
 				}
 			}
 		}); 
