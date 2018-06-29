@@ -53,7 +53,21 @@ public class AuditInOutHandler implements SOAPHandler<SOAPMessageContextImpl> {
 		else {
 			ContextBean bean = new ContextBean();
 			ContextManager.set(bean);
-			bean.setConversationID(UUID.randomUUID().toString());
+			
+			String correlationId = getCorrelationId(mc);
+			if (StringUtils.isEmpty(correlationId)) {
+				initMDC();
+				Audit.trace(Level.INFO, IN_SERVICE, "");
+				Exception exception = buildSoapFault(mc);
+				Duration duration = Duration.between(ContextManager.get().getStart(), Instant.now());
+				Audit.trace(Level.ERROR, OUT_SERVICE, "execTime = " + duration.toMillis() + "ms", exception);
+				ContextManager.remove();
+				MDC.clear();
+				return false;
+			}
+			
+			
+			bean.setConversationID(UUID.randomUUID().toString()+"#"+correlationId);
 			bean.setStart(Instant.now());
 			QName requestedServiceName =  (QName)mc.get(SOAPMessageContext.WSDL_SERVICE);
 			QName requestedOperationName =  (QName)mc.get(SOAPMessageContext.WSDL_OPERATION);
@@ -82,6 +96,11 @@ public class AuditInOutHandler implements SOAPHandler<SOAPMessageContextImpl> {
 
 		return true;
 		
+	}
+	
+	private String getCorrelationId(SOAPMessageContextImpl mc) {
+		final Map<String, List<String>> http_headers = (Map<String, List<String>>) mc.get(MessageContext.HTTP_REQUEST_HEADERS);
+		return http_headers.containsKey("correlationId") ? http_headers.get("correlationId").get(0) : null;
 	}
 
 	private void initMDC() {

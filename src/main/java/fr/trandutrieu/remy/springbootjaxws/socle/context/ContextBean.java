@@ -9,7 +9,7 @@ public class ContextBean {
 	private String requestedService;
 	private String requestedOperation;
 	private String versionService;
-
+	private String correlationId;
 
 	public String getConversationID() {
 		return conversationID;
@@ -57,5 +57,13 @@ public class ContextBean {
 
 	public void setVersionService(String versionService) {
 		this.versionService = versionService;
+	}
+
+	public String getCorrelationId() {
+		return correlationId;
+	}
+
+	public void setCorrelationId(String correlationId) {
+		this.correlationId = correlationId;
 	}
 }
