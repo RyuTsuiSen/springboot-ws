@@ -18,8 +18,6 @@
  */
 package fr.trandutrieu.remy.springbootjaxws.application;
 
-import java.util.Arrays;
-
 import javax.xml.ws.Endpoint;
 
 import org.apache.commons.configuration.AbstractConfiguration;
@@ -29,7 +27,6 @@ import org.apache.cxf.jaxws.EndpointImpl;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 
 import com.netflix.config.ConfigurationManager;
@@ -37,7 +34,6 @@ import com.netflix.config.jmx.ConfigJMXManager;
 
 import fr.trandutrieu.remy.springbootjaxws.application.bonjour.BonjourPortImpl;
 import fr.trandutrieu.remy.springbootjaxws.application.hello.HelloPortImpl;
-import fr.trandutrieu.remy.springbootjaxws.socle.MapperServlet;
 import fr.trandutrieu.remy.springbootjaxws.socle.webservice.ApplicationAbstract;
 
 
@@ -79,11 +75,5 @@ public class Application extends ApplicationAbstract{
         return endpoint;
     }  
     
-    @Bean
-    public ServletRegistrationBean myServletRegistration () {
-        ServletRegistrationBean srb = new ServletRegistrationBean();
-        srb.setServlet(new MapperServlet());
-        srb.setUrlMappings(Arrays.asList("/mapper.stream"));
-        return srb;
-    }
+
 }
