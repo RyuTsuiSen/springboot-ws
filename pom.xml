@@ -47,12 +47,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.netflix.hystrix</groupId>
-			<artifactId>hystrix-core</artifactId>
-			<version>1.5.12</version>
-		</dependency>
-
-		<dependency>
 			<groupId>com.netflix.archaius</groupId>
 			<artifactId>archaius-core</artifactId>
 			<version>0.7.6</version>
@@ -62,6 +56,33 @@
 			<groupId>commons-configuration</groupId>
 			<artifactId>commons-configuration</artifactId>
 			<version>1.8</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.glowroot/glowroot-agent -->
+		<dependency>
+			<groupId>org.glowroot</groupId>
+			<artifactId>glowroot-agent</artifactId>
+			<version>0.10.12</version>
+			<scope>test</scope>
+		</dependency>
+
+
+		<dependency>
+			<groupId>com.netflix.hystrix</groupId>
+			<artifactId>hystrix-core</artifactId>
+			<version>1.5.12</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.netflix.hystrix</groupId>
+			<artifactId>hystrix-metrics-event-stream</artifactId>
+			<version>1.5.12</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.netflix.hystrix</groupId>
+			<artifactId>hystrix-servo-metrics-publisher</artifactId>
+			<version>1.5.12</version>
 		</dependency>
 
 	</dependencies>
