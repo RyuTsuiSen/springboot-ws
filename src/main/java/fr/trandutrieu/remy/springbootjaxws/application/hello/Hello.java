@@ -20,7 +20,6 @@ package fr.trandutrieu.remy.springbootjaxws.application.hello;
 
 import javax.jws.WebService;
 
-import fr.trandutrieu.remy.springbootjaxws.socle.exceptions.BusinessException;
 import fr.trandutrieu.remy.springbootjaxws.socle.webservice.BusinessResponse;
 import fr.trandutrieu.remy.springbootjaxws.socle.webservice.Webservice;
 
@@ -34,10 +33,10 @@ public interface Hello extends Webservice {
 
     public BusinessResponse sayHello(String myname);
     public BusinessResponse sayRuntimeException();
-    public BusinessResponse sayBusinessException() throws BusinessException;
-    public BusinessResponse sayHelloWithExternalCall() throws BusinessException; //OK
-	public BusinessResponse sayHelloButNullPointer() throws BusinessException; //	ERREUR_DEV
-	public BusinessResponse doExternalCallWithTimeOut() throws BusinessException; //TIMEOUT
-	public BusinessResponse doExternalCallWithInterupted() throws BusinessException; //	EXECUTION_ISSUE,
-	public BusinessResponse doExternalCallWithExceptionChecked() throws BusinessException; // CHECKED_EXCEPTION
+    public BusinessResponse sayBusinessException();
+    public BusinessResponse sayHelloWithExternalCall(); //OK
+	public BusinessResponse sayHelloButNullPointer(); //	ERREUR_DEV
+	public BusinessResponse doExternalCallWithTimeOut(); //TIMEOUT
+	public BusinessResponse doExternalCallWithInterupted(); //	EXECUTION_ISSUE,
+	public BusinessResponse doExternalCallWithExceptionChecked(); // CHECKED_EXCEPTION
 }

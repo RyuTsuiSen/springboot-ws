@@ -8,6 +8,7 @@ import com.netflix.hystrix.HystrixCommandProperties;
 import fr.trandutrieu.remy.springbootjaxws.socle.audit.Audit;
 import fr.trandutrieu.remy.springbootjaxws.socle.audit.Audit.Level;
 import fr.trandutrieu.remy.springbootjaxws.socle.externalcall.AdapterCall.TYPE_APPEL;
+import fr.trandutrieu.remy.springbootjaxws.socle.externalcall.exceptions.ExternalCallRuntimeException;
 
 public class ExternalCall extends HystrixCommand<ExternalCallResponse> {
 
@@ -35,7 +36,7 @@ public class ExternalCall extends HystrixCommand<ExternalCallResponse> {
 			Thread.sleep(nombreAleatoire*1000);
 			HystrixCommandMetrics metrics2 = this.getMetrics();
 			Audit.trace(Level.DEBUG, "EXTERNAL_CALL", metrics2.getHealthCounts().toString());
-			throw new ExternalCallException("Probleme a l'execution de l'appel externe");
+			throw new ExternalCallRuntimeException("Probleme a l'execution de l'appel externe");
 		case TIMEOUT:
 			nombreAleatoire = 6 + (int)(Math.random() * 5);
 			Thread.sleep(nombreAleatoire*1000);

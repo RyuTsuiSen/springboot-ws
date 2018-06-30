@@ -2,6 +2,7 @@ package fr.trandutrieu.remy.springbootjaxws.socle.handlers;
 
 import java.util.Collections;
 import java.util.Set;
+import java.util.concurrent.TimeoutException;
 
 import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPBody;
@@ -16,9 +17,11 @@ import org.w3c.dom.Node;
 
 import com.netflix.hystrix.exception.HystrixRuntimeException;
 
+import fr.trandutrieu.remy.springbootjaxws.application.hello.HelloCodeErreur;
 import fr.trandutrieu.remy.springbootjaxws.socle.audit.Audit;
 import fr.trandutrieu.remy.springbootjaxws.socle.audit.Audit.Level;
 import fr.trandutrieu.remy.springbootjaxws.socle.exceptions.BusinessException;
+import fr.trandutrieu.remy.springbootjaxws.socle.exceptions.CodeErreurItf;
 
 public class ErrorWebServiceHandler implements SOAPHandler<SOAPMessageContextImpl> {
 
@@ -47,14 +50,28 @@ public class ErrorWebServiceHandler implements SOAPHandler<SOAPMessageContextImp
 			Throwable cause = content.getCause();
 
 			if (cause instanceof BusinessException) {
-				faultCode.setNodeValue(Error.ERROR_BUSINESS.getErrorCode().name());
-				faultString.setNodeValue(Error.ERROR_BUSINESS.getErrorCode().getLabel() + " " + cause.getMessage());
+				CodeErreurItf<?, ?> codeErreurItf = ((BusinessException) cause).getCodeErreur();
+				HelloCodeErreur codeErreur = (HelloCodeErreur) codeErreurItf.get();
+				faultCode.setNodeValue(codeErreur.getLabelErreur().name());
+				faultString.setNodeValue(codeErreur.getLabelErreur().getLabel());
 			}
 			else if (cause instanceof Throwable) {
 				if (cause instanceof HystrixRuntimeException) {
 					cause = cause.getCause();
-					faultCode.setNodeValue(Error.ERROR_EXTERNAL_CALL.getErrorCode().name());
-					faultString.setNodeValue(Error.ERROR_EXTERNAL_CALL.getErrorCode().getLabel());
+					if(cause instanceof TimeoutException) {
+						faultCode.setNodeValue(Error.ERROR_TIMEOUT.getErrorCode().name());
+						faultString.setNodeValue(Error.ERROR_TIMEOUT.getErrorCode().getLabel());	
+					}
+					else {
+						if(cause.getMessage().equals("Hystrix circuit short-circuited and is OPEN")) {
+							faultCode.setNodeValue(Error.ERROR_UNVAILABLE.getErrorCode().name());
+							faultString.setNodeValue(Error.ERROR_UNVAILABLE.getErrorCode().getLabel());
+						}
+						else {
+							faultCode.setNodeValue(Error.ERROR_EXTERNAL_CALL.getErrorCode().name());
+							faultString.setNodeValue(Error.ERROR_EXTERNAL_CALL.getErrorCode().getLabel());	
+						}
+					}
 				}
 				else if(cause instanceof RuntimeException) {
 					faultCode.setNodeValue(Error.ERROR_SERVER.getErrorCode().name());

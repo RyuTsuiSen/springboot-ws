@@ -22,7 +22,9 @@ import javax.jws.WebService;
 
 import org.springframework.stereotype.Component;
 
+import fr.trandutrieu.remy.springbootjaxws.application.hello.HelloCodeErreur;
 import fr.trandutrieu.remy.springbootjaxws.socle.exceptions.BusinessException;
+import fr.trandutrieu.remy.springbootjaxws.socle.exceptions.BusinessException.BusinessExceptionBuilder;
 import fr.trandutrieu.remy.springbootjaxws.socle.webservice.BusinessResponse;
 import fr.trandutrieu.remy.springbootjaxws.socle.webservice.WebserviceImpl;
 
@@ -48,7 +50,7 @@ public class BonjourPortImpl extends WebserviceImpl implements Bonjour {
 
 	@Override
 	public BusinessResponse sayBusinessException() throws BusinessException {
-    	throw new BusinessException();
+    	throw BusinessExceptionBuilder.instance(HelloCodeErreur.CONTRAT_NON_TROUVE).build();
 	}
     
 

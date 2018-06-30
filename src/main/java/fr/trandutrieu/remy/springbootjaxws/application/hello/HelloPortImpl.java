@@ -27,8 +27,9 @@ import com.netflix.config.DynamicPropertyFactory;
 import com.netflix.config.DynamicStringProperty;
 
 import fr.trandutrieu.remy.springbootjaxws.application.hello.call.IT568;
-import fr.trandutrieu.remy.springbootjaxws.socle.exceptions.BusinessException;
+import fr.trandutrieu.remy.springbootjaxws.socle.exceptions.BusinessException.BusinessExceptionBuilder;
 import fr.trandutrieu.remy.springbootjaxws.socle.externalcall.AdapterCall.TYPE_APPEL;
+import fr.trandutrieu.remy.springbootjaxws.socle.externalcall.exceptions.ExternalCallCheckedException;
 import fr.trandutrieu.remy.springbootjaxws.socle.webservice.BusinessResponse;
 import fr.trandutrieu.remy.springbootjaxws.socle.webservice.WebserviceImpl;
 
@@ -51,13 +52,17 @@ public class HelloPortImpl extends WebserviceImpl implements Hello {
     }
 
 	@Override
-	public BusinessResponse sayBusinessException() throws BusinessException {
-    	throw new BusinessException();
+	public BusinessResponse sayBusinessException() {
+		throw BusinessExceptionBuilder.instance(HelloCodeErreur.CONTRAT_NON_TROUVE).build();
 	}
 
 	@Override
-	public BusinessResponse sayHelloWithExternalCall() throws BusinessException {
-		it568.execute(null, TYPE_APPEL.OK);
+	public BusinessResponse sayHelloWithExternalCall() {
+		try {
+			it568.execute(null, TYPE_APPEL.OK);
+		} catch (ExternalCallCheckedException e) {
+			throw BusinessExceptionBuilder.instance(HelloCodeErreur.CONTRAT_NON_TROUVE).withThrowable(e).build();
+		}
     	BusinessResponse reponse = new BusinessResponse();
     	reponse.setReponse(it568.getClass().getSimpleName() + " " + TYPE_APPEL.OK + "!!!");
 		return reponse;
@@ -65,28 +70,44 @@ public class HelloPortImpl extends WebserviceImpl implements Hello {
 	
 
 	@Override
-	public BusinessResponse sayHelloButNullPointer() throws BusinessException {
-		it568.execute(null, TYPE_APPEL.ERREUR_DEV);
+	public BusinessResponse sayHelloButNullPointer(){
+		try {
+			it568.execute(null, TYPE_APPEL.ERREUR_DEV);
+		} catch (ExternalCallCheckedException e) {
+			throw BusinessExceptionBuilder.instance(HelloCodeErreur.CONTRAT_NON_TROUVE).withThrowable(e).build();
+		}
     	BusinessResponse reponse = new BusinessResponse();
     	reponse.setReponse("Hello, Welcome to CXF Spring boot " + TYPE_APPEL.ERREUR_DEV + "!!!");
 		return reponse;
 	}
 
 	@Override
-	public BusinessResponse doExternalCallWithTimeOut() throws BusinessException {
-		it568.execute(null, TYPE_APPEL.TIMEOUT);
+	public BusinessResponse doExternalCallWithTimeOut() {
+		try {
+			it568.execute(null, TYPE_APPEL.TIMEOUT);
+		} catch (ExternalCallCheckedException e) {
+			throw BusinessExceptionBuilder.instance(HelloCodeErreur.CONTRAT_NON_TROUVE).withThrowable(e).build();
+		}
 		throw new UnsupportedOperationException("ne devrait pas passer par ici");
 	}
 
 	@Override
-	public BusinessResponse doExternalCallWithInterupted() throws BusinessException {
-		it568.execute(null, TYPE_APPEL.EXECUTION_ISSUE);
+	public BusinessResponse doExternalCallWithInterupted() {
+		try {
+			it568.execute(null, TYPE_APPEL.EXECUTION_ISSUE);
+		} catch (ExternalCallCheckedException e) {
+			throw BusinessExceptionBuilder.instance(HelloCodeErreur.CONTRAT_NON_TROUVE).withThrowable(e).build();
+		}
     	throw new UnsupportedOperationException("ne devrait pas passer par ici");
 	}
 
 	@Override
-	public BusinessResponse doExternalCallWithExceptionChecked() throws BusinessException {
-		it568.execute(null, TYPE_APPEL.CHECKED_EXCEPTION);
+	public BusinessResponse doExternalCallWithExceptionChecked() {
+		try {
+			it568.execute(null, TYPE_APPEL.CHECKED_EXCEPTION);
+		} catch (ExternalCallCheckedException e) {
+			throw BusinessExceptionBuilder.instance(HelloCodeErreur.CONTRAT_NON_TROUVE).withThrowable(e).build();
+		}
 		throw new UnsupportedOperationException("ne devrait pas passer par ici");
 	}
     
