@@ -3,7 +3,7 @@
 ```sh
 mvn clean install
 mvn package
-java -jar java -javaagent:{maven-repo-local}/glowroot/glowroot.jar -jar target/springboot-ws-1.0.0.jar
+java -javaagent:{maven-repo-local}/glowroot/glowroot.jar -jar target/springboot-ws-1.0.0.jar
 ```
 
 Check WSDL
