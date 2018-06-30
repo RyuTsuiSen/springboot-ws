@@ -43,14 +43,13 @@ public class Audit {
 		if (throwable != null){
 			stack.append(throwable.toString()).append(" ");
 			if (throwable.getStackTrace() != null && throwable.getStackTrace().length != 0){
-				int stackDepth = 5; 
-				for(int i=0 ; i<stackDepth ; i++){
+				for(int i=0 ; i<5 ; i++){
 					String className = throwable.getStackTrace()[i].getClassName();
 					String fileName = throwable.getStackTrace()[i].getFileName();
 					String methodName = throwable.getStackTrace()[i].getMethodName();
 					Integer line = throwable.getStackTrace()[i].getLineNumber();
 
-					stack.append(" at " + className + "." + methodName + "(" + fileName + ":" + line + ")");
+					stack.append(" at " + className + "." + methodName + "(" + fileName + ":" + line + ") \n");
 				}
 			}
 		}
