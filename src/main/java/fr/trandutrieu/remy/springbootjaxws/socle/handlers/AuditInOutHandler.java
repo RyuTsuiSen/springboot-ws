@@ -85,7 +85,7 @@ public class AuditInOutHandler implements SOAPHandler<SOAPMessageContextImpl> {
 		String requestedOperation =  (requestedOperationName != null) ? requestedOperationName.getLocalPart() : null;
 		bean.setRequestedOperation(requestedOperation);
 		bean.setRequestedService(requestedService);
-		bean.setVersionService(WhoAmI.version);
+		bean.setVersionService(WhoAmI.version+"#"+WhoAmI.versionSocle);
 		return bean;
 	}
 
