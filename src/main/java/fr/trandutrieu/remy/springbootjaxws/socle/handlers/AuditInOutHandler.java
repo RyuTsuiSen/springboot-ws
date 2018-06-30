@@ -32,62 +32,83 @@ public class AuditInOutHandler implements SOAPHandler<SOAPMessageContextImpl> {
 
 	private static final String IN_SERVICE = "SERVICE IN";
 	private static final String OUT_SERVICE = "SERVICE OUT";
-	
+	private static final String SERVICE = "SERVICE";
 	public boolean handleMessage(SOAPMessageContextImpl mc) {
 		
 		
 		Boolean outboundProperty = (Boolean) mc.get (MessageContext.MESSAGE_OUTBOUND_PROPERTY);
 		if (outboundProperty.booleanValue()) {
-			Duration duration = Duration.between(ContextManager.get().getStart(), Instant.now());
-			Audit.trace(Level.INFO, OUT_SERVICE, "execTime = " + duration.toMillis() + "ms");
-			ContextManager.remove();
-			MDC.clear();
+			Audit.trace(Level.INFO, OUT_SERVICE, "execTime = " + Duration.between(ContextManager.get().getStart(), Instant.now()).toMillis() + "ms");
+			clean();
+			return true;
 		}
 		else {
-			ContextBean bean = new ContextBean();
-			ContextManager.set(bean);
-			
-			String correlationId = getCorrelationId(mc);
-			if (StringUtils.isEmpty(correlationId)) {
-				initMDC();
-				Audit.trace(Level.INFO, IN_SERVICE, "");
-				Exception exception = buildSoapFault(mc);
-				Duration duration = Duration.between(ContextManager.get().getStart(), Instant.now());
-				Audit.trace(Level.ERROR, OUT_SERVICE, "execTime = " + duration.toMillis() + "ms", exception);
-				ContextManager.remove();
-				MDC.clear();
-				return false;
-			}
-			
-			
-			bean.setConversationID(UUID.randomUUID().toString()+"#"+correlationId);
-			bean.setStart(Instant.now());
-			QName requestedServiceName =  (QName)mc.get(SOAPMessageContext.WSDL_SERVICE);
-			QName requestedOperationName =  (QName)mc.get(SOAPMessageContext.WSDL_OPERATION);
-			String requestedService =  (requestedServiceName != null && requestedServiceName.getNamespaceURI() != null) ? (requestedServiceName.getNamespaceURI() + requestedServiceName.getLocalPart()) : null;
-			String requestedOperation =  (requestedOperationName != null) ? requestedOperationName.getLocalPart() : null;
-			bean.setRequestedOperation(requestedOperation);
-			bean.setRequestedService(requestedService);
-			bean.setVersionService(WhoAmI.version);
-			
-			String username = getUsername(mc);
-			if (StringUtils.isEmpty(username)) {
-				initMDC();
-				Audit.trace(Level.INFO, IN_SERVICE, "");
-				Exception exception = buildSoapFault(mc);
-				Duration duration = Duration.between(ContextManager.get().getStart(), Instant.now());
-				Audit.trace(Level.ERROR, OUT_SERVICE, "execTime = " + duration.toMillis() + "ms", exception);
-				ContextManager.remove();
-				MDC.clear();
-				return false;
-			}
-			bean.setCaller(username);
-			initMDC();
+			init(mc);
 			Audit.trace(Level.INFO, IN_SERVICE, "");
+			
+			String reason = checkHeaders(mc);
+			if(StringUtils.isEmpty(reason)) {
+				Audit.trace(Level.DEBUG, SERVICE, "Context OK execTime = " +  Duration.between(ContextManager.get().getStart(), Instant.now()).toMillis() + "ms");
+				return true;
+			}
+			else {
+				outServiceOutWithErrorInServiceIn(mc, reason);
+				Audit.trace(Level.ERROR, OUT_SERVICE, "execTime = " + Duration.between(ContextManager.get().getStart(), Instant.now()).toMillis() + "ms");
+				clean();
+				return false;
+			}
 		}
 
-		return true;
 		
+		
+	}
+
+	private void init(SOAPMessageContextImpl mc) {
+		ContextBean bean = initializeContextBean(mc);
+		addContextBeanByHeaderRequired(mc, bean);
+		initMDC();
+	}
+
+	private void addContextBeanByHeaderRequired(SOAPMessageContextImpl mc, ContextBean bean) {
+		String internalId = UUID.randomUUID().toString() + "#";
+		bean.setConversationID(!StringUtils.isEmpty(getCorrelationId(mc)) ? internalId+getCorrelationId(mc) : internalId+"correlationIdMissing");
+		bean.setCaller(!StringUtils.isEmpty(getUsername(mc)) ? getUsername(mc) :"unknown");
+		ContextManager.set(bean);
+	}
+
+	private ContextBean initializeContextBean(SOAPMessageContextImpl mc) {
+		ContextBean bean = new ContextBean();
+		bean.setStart(Instant.now());
+		QName requestedServiceName =  (QName)mc.get(SOAPMessageContext.WSDL_SERVICE);
+		QName requestedOperationName =  (QName)mc.get(SOAPMessageContext.WSDL_OPERATION);
+		String requestedService =  (requestedServiceName != null && requestedServiceName.getNamespaceURI() != null) ? (requestedServiceName.getNamespaceURI() + requestedServiceName.getLocalPart()) : null;
+		String requestedOperation =  (requestedOperationName != null) ? requestedOperationName.getLocalPart() : null;
+		bean.setRequestedOperation(requestedOperation);
+		bean.setRequestedService(requestedService);
+		bean.setVersionService(WhoAmI.version);
+		return bean;
+	}
+
+	private String checkHeaders(SOAPMessageContextImpl mc) {
+		if (StringUtils.isEmpty(getCorrelationId(mc))) {
+			return "correlationId missing";
+		}
+		
+		if (StringUtils.isEmpty(getUsername(mc))) {
+			return "username missing";
+		}
+		
+		return null;
+	}
+	
+	private void outServiceOutWithErrorInServiceIn(final SOAPMessageContextImpl mc, final String reason){
+		Exception exception = buildSoapFault(mc);
+		Audit.trace(Level.ERROR, SERVICE, reason, exception);
+	}
+	
+	private void clean() {
+		ContextManager.remove();
+		MDC.clear();
 	}
 	
 	private String getCorrelationId(SOAPMessageContextImpl mc) {
