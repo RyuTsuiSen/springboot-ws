@@ -1,9 +1,11 @@
 package fr.trandutrieu.remy.springbootjaxws.socle.handlers;
 
+import java.nio.charset.Charset;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Base64;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -28,13 +30,14 @@ import fr.trandutrieu.remy.springbootjaxws.socle.audit.Audit.Level;
 import fr.trandutrieu.remy.springbootjaxws.socle.context.ContextBean;
 import fr.trandutrieu.remy.springbootjaxws.socle.context.ContextManager;
 
-public class AuditInOutHandler implements SOAPHandler<SOAPMessageContextImpl> {
+public class AuditInOutHandler implements SOAPHandler<SOAPMessageContext > {
 
 	private static final String IN_SERVICE = "SERVICE IN";
 	private static final String OUT_SERVICE = "SERVICE OUT";
 	private static final String SERVICE = "SERVICE";
-	public boolean handleMessage(SOAPMessageContextImpl mc) {
+	public boolean handleMessage(SOAPMessageContext messageContext) {
 		
+		SOAPMessageContextImpl mc = (SOAPMessageContextImpl) messageContext;
 		
 		Boolean outboundProperty = (Boolean) mc.get (MessageContext.MESSAGE_OUTBOUND_PROPERTY);
 		if (outboundProperty.booleanValue()) {
@@ -70,9 +73,10 @@ public class AuditInOutHandler implements SOAPHandler<SOAPMessageContextImpl> {
 	}
 
 	private void addContextBeanByHeaderRequired(SOAPMessageContextImpl mc, ContextBean bean) {
+		final Map<String, List<String>> http_headers = (Map<String, List<String>>) mc.get(MessageContext.HTTP_REQUEST_HEADERS);
 		String internalId = UUID.randomUUID().toString() + "#";
-		bean.setConversationID(!StringUtils.isEmpty(getCorrelationId(mc)) ? internalId+getCorrelationId(mc) : internalId+"correlationIdMissing");
-		bean.setCaller(!StringUtils.isEmpty(getUsername(mc)) ? getUsername(mc) :"unknown");
+		bean.setConversationID(!StringUtils.isEmpty(getCorrelationId(http_headers)) ? internalId+getCorrelationId(http_headers) : internalId+"correlationIdMissing");
+		bean.setCaller(!StringUtils.isEmpty(getUsername(http_headers)) ? getUsername(http_headers) :"unknown");
 		ContextManager.set(bean);
 	}
 
@@ -90,20 +94,25 @@ public class AuditInOutHandler implements SOAPHandler<SOAPMessageContextImpl> {
 	}
 
 	private String checkHeaders(SOAPMessageContextImpl mc) {
-		if (StringUtils.isEmpty(getCorrelationId(mc))) {
+		final Map<String, List<String>> http_headers = (Map<String, List<String>>) mc.get(MessageContext.HTTP_REQUEST_HEADERS);
+		if (StringUtils.isEmpty(getCorrelationId(http_headers))) {
 			return "correlationId missing";
 		}
 		
-		if (StringUtils.isEmpty(getUsername(mc))) {
+		if (StringUtils.isEmpty(getUsername(http_headers))) {
 			return "username missing";
+		}
+		
+		if (!checkTimestamp(http_headers)) {
+			return "timestamp missing or not validate";
 		}
 		
 		return null;
 	}
 	
 	private void outServiceOutWithErrorInServiceIn(final SOAPMessageContextImpl mc, final String reason){
-		Exception exception = buildSoapFault(mc);
-		Audit.trace(Level.ERROR, SERVICE, reason, exception);
+		buildSoapFault(mc);
+		Audit.trace(Level.ERROR, SERVICE, reason);
 	}
 	
 	private void clean() {
@@ -111,8 +120,8 @@ public class AuditInOutHandler implements SOAPHandler<SOAPMessageContextImpl> {
 		MDC.clear();
 	}
 	
-	private String getCorrelationId(SOAPMessageContextImpl mc) {
-		final Map<String, List<String>> http_headers = (Map<String, List<String>>) mc.get(MessageContext.HTTP_REQUEST_HEADERS);
+	private String getCorrelationId(final Map<String, List<String>> http_headers) {
+
 		return http_headers.containsKey("correlationId") ? http_headers.get("correlationId").get(0) : null;
 	}
 
@@ -124,7 +133,7 @@ public class AuditInOutHandler implements SOAPHandler<SOAPMessageContextImpl> {
 		MDC.put("consumerName", ContextManager.get().getCaller());
 	}
 
-	private SOAPException buildSoapFault(final SOAPMessageContextImpl mc) {
+	private void buildSoapFault(final SOAPMessageContextImpl mc) {
 		try {
 			SOAPBody soapBody = mc.getMessage().getSOAPBody();
 			soapBody.removeContents();
@@ -139,13 +148,11 @@ public class AuditInOutHandler implements SOAPHandler<SOAPMessageContextImpl> {
 			faultCode.setNodeValue(Error.HEADERS_INVALID.getErrorCode().name());
 			faultString.setNodeValue(Error.HEADERS_INVALID.getErrorCode().getLabel());
 		} catch (SOAPException e) {
-			return e;
+			Audit.trace(Level.ERROR, SERVICE, "Error parsing XML", e);
 		}
-		return null;
 	}
 
-	private String getUsername(SOAPMessageContextImpl mc) {
-		final Map<String, List<String>> http_headers = (Map<String, List<String>>) mc.get(MessageContext.HTTP_REQUEST_HEADERS);
+	private String getUsername(final Map<String, List<String>> http_headers) {
 		String username = http_headers.containsKey("username") ? http_headers.get("username").get(0) : null;
 		if (username == null) {
 			String authorization = http_headers.containsKey("Authorization") ? http_headers.get("Authorization").get(0) : null;
@@ -154,11 +161,30 @@ public class AuditInOutHandler implements SOAPHandler<SOAPMessageContextImpl> {
 		return username;
 	}
 
+	private boolean checkTimestamp(final Map<String, List<String>> http_headers) {
+		String timestamp = http_headers.containsKey("timestamp") ? http_headers.get("timestamp").get(0) : null;
+		if (timestamp != null) {
+			Long timestampLong = Long.parseLong(timestamp);
+			Date date = new Date(timestampLong); 
+			Instant start = date.toInstant();
+			Instant end = Instant.now();
+			
+			Duration requestTimeStamp = Duration.between(start, end);
+			if (requestTimeStamp.getSeconds() > 0 || requestTimeStamp.toMinutes() < 5) {
+				return true;
+			}
+		}
+		
+		//TODO return false;
+		Audit.trace(Level.WARNING, SERVICE, "checkTimestamp disabled");
+		return true;
+	}
+	
 	public Set<QName> getHeaders() {
 		return Collections.emptySet();
 	}
 
-	public boolean handleFault(SOAPMessageContextImpl mc) {
+	public boolean handleFault(SOAPMessageContext messageContext) {
 		Duration duration = Duration.between(ContextManager.get().getStart(), Instant.now());
 		Audit.trace(Level.ERROR, OUT_SERVICE, "execTime = " + duration.toMillis() + "ms");
 		ContextManager.remove();
@@ -170,13 +196,18 @@ public class AuditInOutHandler implements SOAPHandler<SOAPMessageContextImpl> {
 	public void close(MessageContext context) {
 	}
 	
-	private static String decode(final String encoded) {
-		if(encoded == null) {
+	private String decode(final String encoded) {
+		if(encoded == null ) {
 			return null;
 		}
-        final byte[] decodedBytes = Base64.getDecoder().decode(encoded.getBytes());
-        final String pair = new String(decodedBytes);
-        final String[] userDetails = pair.split(":", 2);
-        return userDetails[0];
+		
+		if (!encoded.startsWith("Basic")) {
+			return null;
+		}
+		
+        String base64Credentials = encoded.substring("Basic".length()).trim();
+        String credentials = new String(Base64.getDecoder().decode(base64Credentials), Charset.forName("UTF-8"));
+        final String[] values = credentials.split(":",2);
+        return values[0];
     }
 }
