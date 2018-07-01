@@ -18,8 +18,8 @@ public abstract class ApplicationAbstract {
     
 	
     @Bean
-    public ServletRegistrationBean myServletRegistration () {
-        ServletRegistrationBean srb = new ServletRegistrationBean();
+    public ServletRegistrationBean<AdapterServlet> myServletRegistration () {
+        ServletRegistrationBean<AdapterServlet> srb = new ServletRegistrationBean<>();
         srb.setServlet(new AdapterServlet());
         srb.setUrlMappings(Arrays.asList("/adapters.stream"));
         return srb;
