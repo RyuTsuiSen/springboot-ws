@@ -27,6 +27,7 @@ import com.netflix.config.DynamicPropertyFactory;
 import com.netflix.config.DynamicStringProperty;
 
 import fr.trandutrieu.remy.springbootjaxws.application.hello.call.IT568;
+import fr.trandutrieu.remy.springbootjaxws.application.hello.call.IT569;
 import fr.trandutrieu.remy.springbootjaxws.socle.exceptions.BusinessException.BusinessExceptionBuilder;
 import fr.trandutrieu.remy.springbootjaxws.socle.externalcall.AdapterCall.TYPE_APPEL;
 import fr.trandutrieu.remy.springbootjaxws.socle.externalcall.exceptions.ExternalCallCheckedException;
@@ -39,6 +40,9 @@ public class HelloPortImpl extends WebserviceImpl implements Hello {
 	
 	@Autowired
 	private IT568 it568;
+	
+	@Autowired
+	private IT569 it569;
 	
     public BusinessResponse sayHello(String myname) {
     	DynamicStringProperty sampleProp = DynamicPropertyFactory.getInstance().getStringProperty("stringprop", "");
@@ -60,6 +64,7 @@ public class HelloPortImpl extends WebserviceImpl implements Hello {
 	public BusinessResponse sayHelloWithExternalCall() {
 		try {
 			it568.execute(null, TYPE_APPEL.OK);
+			it569.execute(null, TYPE_APPEL.OK);
 		} catch (ExternalCallCheckedException e) {
 			throw BusinessExceptionBuilder.instance(HelloCodeErreur.CONTRAT_NON_TROUVE).withThrowable(e).build();
 		}
