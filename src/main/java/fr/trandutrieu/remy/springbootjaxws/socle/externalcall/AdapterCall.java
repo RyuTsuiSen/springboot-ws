@@ -29,7 +29,7 @@ public abstract class AdapterCall {
 		
 		HystrixRequestContext context = HystrixRequestContext.initializeContext();
 		try {
-			ExternalCall external = new ExternalCall(typeAppel);
+			ExternalCall external = new ExternalCall(typeAppel, this.getClass().getSimpleName());
 			ExternalCallResponse response =  external.execute();
 			traitement(typeAppel);
 			handleCheckedException(typeAppel);

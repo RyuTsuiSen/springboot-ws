@@ -2,8 +2,10 @@ package fr.trandutrieu.remy.springbootjaxws.socle.externalcall;
 
 import com.netflix.hystrix.HystrixCommand;
 import com.netflix.hystrix.HystrixCommandGroupKey;
+import com.netflix.hystrix.HystrixCommandKey;
 import com.netflix.hystrix.HystrixCommandMetrics;
 import com.netflix.hystrix.HystrixCommandProperties;
+import com.netflix.hystrix.HystrixThreadPoolKey;
 
 import fr.trandutrieu.remy.springbootjaxws.socle.audit.Audit;
 import fr.trandutrieu.remy.springbootjaxws.socle.audit.Audit.Level;
@@ -14,11 +16,17 @@ public class ExternalCall extends HystrixCommand<ExternalCallResponse> {
 
 	private TYPE_APPEL typeAppel;
 
-	protected ExternalCall(TYPE_APPEL typeAppel) {
-		super(Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey(typeAppel.name()))
-				.andCommandPropertiesDefaults(HystrixCommandProperties.Setter()
-						.withExecutionTimeoutInMilliseconds(5000)
-						.withMetricsRollingStatisticalWindowInMilliseconds(30000)));
+	protected ExternalCall(TYPE_APPEL typeAppel, String nameCircuit) {
+		
+		  super(Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey(nameCircuit))
+	                .andCommandKey(HystrixCommandKey.Factory.asKey(nameCircuit))
+	                .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey("MAINFRAME"))
+		  			.andCommandPropertiesDefaults(HystrixCommandProperties.Setter()
+					.withExecutionTimeoutInMilliseconds(5000)
+					.withCircuitBreakerRequestVolumeThreshold(10)
+					.withCircuitBreakerSleepWindowInMilliseconds(15000)
+					.withMetricsRollingStatisticalWindowInMilliseconds(30000)));
+		
 		this.typeAppel = typeAppel;
 	}
 
