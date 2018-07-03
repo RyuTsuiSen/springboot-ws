@@ -1,4 +1,4 @@
-package fr.trandutrieu.remy.springbootjaxws.application;
+package test.fr.trandutrieu.remy.springbootjaxws.application;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,13 +16,13 @@ public class ApplicationTestConfig {
         return new HelloPortImpl();
     }
     
-    @Bean
-    public IT568 setIT568() {
-        return new  IT568();
-    }
-    
-    @Bean
-    public IT569 setIT569() {
-        return new  IT569();
-    }
+	@Bean
+	public IT568 getIt568() {
+		return new IT568();
+	}
+	
+	@Bean
+	public IT569 getIt569() {
+		return new IT569();
+	}
 }
