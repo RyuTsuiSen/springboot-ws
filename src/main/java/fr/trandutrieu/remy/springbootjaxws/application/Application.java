@@ -30,7 +30,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.context.annotation.Bean;
 
 import com.netflix.config.ConfigurationManager;
-import com.netflix.config.jmx.ConfigJMXManager;
 
 import fr.trandutrieu.remy.springbootjaxws.application.bonjour.BonjourPortImpl;
 import fr.trandutrieu.remy.springbootjaxws.application.hello.HelloPortImpl;
@@ -40,8 +39,9 @@ import fr.trandutrieu.remy.springbootjaxws.socle.webservice.ApplicationAbstract;
 public class Application extends ApplicationAbstract{
     
 	static {
-		AbstractConfiguration configInstance = ConfigurationManager.getConfigInstance();
-		ConfigJMXManager.registerConfigMbean(configInstance);
+		System.setProperty("archaius.configurationSource.additionalUrls", "file:folder/config.properties");
+		System.setProperty("archaius.dynamicPropertyFactory.registerConfigWithJMX", "true");
+
 		
 		ConfigurationManager.getConfigInstance().addConfigurationListener(new ConfigurationListener() {
 			@Override
