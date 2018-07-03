@@ -1,5 +1,7 @@
 package fr.trandutrieu.remy.springbootjaxws.socle.externalcall;
 
+import com.netflix.config.DynamicPropertyFactory;
+import com.netflix.config.DynamicStringProperty;
 import com.netflix.hystrix.HystrixCommand;
 import com.netflix.hystrix.HystrixCommandGroupKey;
 import com.netflix.hystrix.HystrixCommandKey;
@@ -32,10 +34,13 @@ public class ExternalCall extends HystrixCommand<ExternalCallResponse> {
 
 	@Override
 	protected ExternalCallResponse run() throws Exception {
+		ExternalCallResponse externalCallResponse = new ExternalCallResponse();
 		int nombreAleatoire=0;
 		switch(typeAppel) {
 		case OK:
 		case ERREUR_DEV:
+	    	DynamicStringProperty sampleProp = DynamicPropertyFactory.getInstance().getStringProperty("stringprop", "");
+	    	externalCallResponse.setReponse(sampleProp.get());
 			nombreAleatoire = (int)(Math.random() * 4);
 			Thread.sleep(nombreAleatoire*1000);
 			break;
@@ -56,7 +61,7 @@ public class ExternalCall extends HystrixCommand<ExternalCallResponse> {
 
 		HystrixCommandMetrics metrics2 = this.getMetrics();
 		Audit.trace(Level.DEBUG, "EXTERNAL_CALL", metrics2.getHealthCounts().toString());
-		return null;
+		return externalCallResponse;
 	}
 	
 	

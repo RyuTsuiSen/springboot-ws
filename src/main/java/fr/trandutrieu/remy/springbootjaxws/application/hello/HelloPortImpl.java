@@ -23,13 +23,11 @@ import javax.jws.WebService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.netflix.config.DynamicPropertyFactory;
-import com.netflix.config.DynamicStringProperty;
-
 import fr.trandutrieu.remy.springbootjaxws.application.hello.call.IT568;
 import fr.trandutrieu.remy.springbootjaxws.application.hello.call.IT569;
 import fr.trandutrieu.remy.springbootjaxws.socle.exceptions.BusinessException.BusinessExceptionBuilder;
 import fr.trandutrieu.remy.springbootjaxws.socle.externalcall.AdapterCall.TYPE_APPEL;
+import fr.trandutrieu.remy.springbootjaxws.socle.externalcall.ExternalCallResponse;
 import fr.trandutrieu.remy.springbootjaxws.socle.externalcall.exceptions.ExternalCallCheckedException;
 import fr.trandutrieu.remy.springbootjaxws.socle.webservice.BusinessResponse;
 import fr.trandutrieu.remy.springbootjaxws.socle.webservice.WebserviceImpl;
@@ -45,9 +43,8 @@ public class HelloPortImpl extends WebserviceImpl implements Hello {
 	private IT569 it569;
 	
     public BusinessResponse sayHello(String myname) {
-    	DynamicStringProperty sampleProp = DynamicPropertyFactory.getInstance().getStringProperty("stringprop", "");
     	BusinessResponse reponse = new BusinessResponse();
-    	reponse.setReponse("Hello, Welcome " + sampleProp.get() + "!!!");
+    	reponse.setReponse("Hello, Welcome " + myname + "!!!");
     	return reponse;
     }
 
@@ -62,14 +59,15 @@ public class HelloPortImpl extends WebserviceImpl implements Hello {
 
 	@Override
 	public BusinessResponse sayHelloWithExternalCall() {
+		BusinessResponse reponse = new BusinessResponse();
 		try {
-			it568.execute(null, TYPE_APPEL.OK);
+			ExternalCallResponse execute = it568.execute(null, TYPE_APPEL.OK);
+			execute.setReponse("IT568 a cherche : " + execute.getReponse() + "!!!");
 			it569.execute(null, TYPE_APPEL.OK);
 		} catch (ExternalCallCheckedException e) {
 			throw BusinessExceptionBuilder.instance(HelloCodeErreur.CONTRAT_NON_TROUVE).withThrowable(e).build();
 		}
-    	BusinessResponse reponse = new BusinessResponse();
-    	reponse.setReponse(it568.getClass().getSimpleName() + " " + TYPE_APPEL.OK + "!!!");
+    	
 		return reponse;
 	}
 	
