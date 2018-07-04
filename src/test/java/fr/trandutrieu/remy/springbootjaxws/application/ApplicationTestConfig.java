@@ -1,7 +1,8 @@
-package test.fr.trandutrieu.remy.springbootjaxws.application;
+package fr.trandutrieu.remy.springbootjaxws.application;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 import fr.trandutrieu.remy.springbootjaxws.application.hello.Hello;
 import fr.trandutrieu.remy.springbootjaxws.application.hello.HelloPortImpl;
@@ -17,11 +18,13 @@ public class ApplicationTestConfig {
     }
     
 	@Bean
+	@Primary
 	public IT568 getIt568() {
 		return new IT568();
 	}
 	
 	@Bean
+	@Primary	
 	public IT569 getIt569() {
 		return new IT569();
 	}

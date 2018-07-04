@@ -62,7 +62,7 @@ public class HelloPortImpl extends WebserviceImpl implements Hello {
 		BusinessResponse reponse = new BusinessResponse();
 		try {
 			ExternalCallResponse execute = it568.execute(null, TYPE_APPEL.OK);
-			execute.setReponse("IT568 a cherche : " + execute.getReponse() + "!!!");
+			reponse.setReponse("IT568 a cherche : " + execute.getReponse() + "!!!");
 			it569.execute(null, TYPE_APPEL.OK);
 		} catch (ExternalCallCheckedException e) {
 			throw BusinessExceptionBuilder.instance(HelloCodeErreur.CONTRAT_NON_TROUVE).withThrowable(e).build();

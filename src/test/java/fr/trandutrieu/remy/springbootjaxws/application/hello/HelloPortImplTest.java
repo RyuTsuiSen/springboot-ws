@@ -1,4 +1,4 @@
-package test.fr.trandutrieu.remy.springbootjaxws.application.hello;
+package fr.trandutrieu.remy.springbootjaxws.application.hello;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import fr.trandutrieu.remy.springbootjaxws.application.ApplicationTestConfig;
 import fr.trandutrieu.remy.springbootjaxws.application.hello.Hello;
-import test.fr.trandutrieu.remy.springbootjaxws.application.ApplicationTestConfig;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes=ApplicationTestConfig.class)
