@@ -16,7 +16,9 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<start-class>fr.trandutrieu.remy.springbootjaxws.application.ApplicationWeb</start-class>
 	</properties>
+
 
 	<dependencies>
 		<dependency>
