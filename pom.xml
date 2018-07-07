@@ -12,7 +12,7 @@
 	<groupId>fr.trandutrieu.remy</groupId>
 	<artifactId>springboot-ws</artifactId>
 	<version>1.0.0</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -28,12 +28,28 @@
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-starter-logging</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web-services</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -94,6 +110,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 
+
 			<plugin>
 				<groupId>com.webcohesion.enunciate</groupId>
 				<artifactId>enunciate-slim-maven-plugin</artifactId>
@@ -107,6 +124,7 @@
 					</execution>
 				</executions>
 				<dependencies>
+
 					<dependency>
 						<groupId>com.webcohesion.enunciate</groupId>
 						<artifactId>enunciate-docs</artifactId>
@@ -144,7 +162,7 @@
 							<goal>check</goal>
 						</goals>
 						<configuration>
-						<haltOnFailure>false</haltOnFailure>
+							<haltOnFailure>false</haltOnFailure>
 							<rules>
 								<rule>
 									<element>BUNDLE</element>
