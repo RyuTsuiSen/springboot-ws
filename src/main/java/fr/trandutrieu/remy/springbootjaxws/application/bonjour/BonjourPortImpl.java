@@ -20,6 +20,9 @@ package fr.trandutrieu.remy.springbootjaxws.application.bonjour;
 
 import javax.jws.WebService;
 
+import org.apache.cxf.annotations.EndpointProperties;
+import org.apache.cxf.annotations.EndpointProperty;
+import org.apache.cxf.annotations.SchemaValidation;
 import org.springframework.stereotype.Component;
 
 import fr.trandutrieu.remy.springbootjaxws.application.hello.HelloCodeErreur;
@@ -35,12 +38,16 @@ import fr.trandutrieu.remy.springbootjaxws.socle.webservice.WebserviceImpl;
  */
 
 @WebService
+@SchemaValidation
+@EndpointProperties(value = {
+	    @EndpointProperty(key="schema-validation-enabled", value="true")
+	})
 @Component
 public class BonjourPortImpl extends WebserviceImpl implements Bonjour {
 
-    public BusinessResponse disBonjour(String myname) {
+    public BusinessResponse disBonjour(BonjourRequest request) {
     	BusinessResponse reponse = new BusinessResponse();
-    	reponse.setReponse("Bonjour, Bienvenue a CXF Spring boot " + myname + "!!!");
+    	reponse.setReponse("Bonjour, Bienvenue a CXF Spring boot " + request.getName() + "!!!");
     	return reponse;
     }
     

@@ -31,7 +31,7 @@ import fr.trandutrieu.remy.springbootjaxws.socle.webservice.Webservice;
  */
 @WebService
 public interface Bonjour extends Webservice {
-    public BusinessResponse disBonjour(String myname);
+    public BusinessResponse disBonjour(BonjourRequest request);
     public BusinessResponse sayRuntimeException();
     public BusinessResponse sayBusinessException() throws BusinessException;
 }
