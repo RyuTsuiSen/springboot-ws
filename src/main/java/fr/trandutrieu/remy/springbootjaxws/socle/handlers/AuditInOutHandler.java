@@ -185,10 +185,15 @@ public class AuditInOutHandler implements SOAPHandler<SOAPMessageContext > {
 	}
 
 	public boolean handleFault(SOAPMessageContext messageContext) {
-		Duration duration = Duration.between(ContextManager.get().getStart(), Instant.now());
-		Audit.trace(Level.ERROR, OUT_SERVICE, "execTime = " + duration.toMillis() + "ms");
-		ContextManager.remove();
-		MDC.clear();
+		if (ContextManager.get() != null) {
+			Duration duration = Duration.between(ContextManager.get().getStart(), Instant.now());
+			Audit.trace(Level.ERROR, OUT_SERVICE, "execTime = " + duration.toMillis() + "ms");
+			ContextManager.remove();
+			MDC.clear();
+		}
+		else {
+			Audit.trace(Level.ERROR, OUT_SERVICE, "SOAP REQUEST INVALID");
+		}
 		return true;
 	}
 
