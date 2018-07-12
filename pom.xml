@@ -23,6 +23,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<start-class>fr.trandutrieu.remy.springbootjaxws.application.ApplicationWeb</start-class>
 		<tomcat.version>8.5.32</tomcat.version>
+		<github.global.server>github</github.global.server>
 	</properties>
 
 
