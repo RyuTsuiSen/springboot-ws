@@ -9,9 +9,14 @@
 		<version>2.0.3.RELEASE</version>
 	</parent>
 
+	<scm>
+		<connection>scm:git:ssh://git@github.com/RyuTsuiSen/springboot-ws.git</connection>
+		<url>git:ssh://git@github.com/RyuTsuiSen/springboot-ws.git</url>
+	</scm>
+
 	<groupId>fr.trandutrieu.remy</groupId>
 	<artifactId>springboot-ws</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 	<properties>
