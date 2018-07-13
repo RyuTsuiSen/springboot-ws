@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -10,8 +12,8 @@
 	<scm>
 		<connection>scm:git:ssh://git@github.com/RyuTsuiSen/springboot-ws.git</connection>
 		<url>git:ssh://git@github.com/RyuTsuiSen/springboot-ws.git</url>
-	  <tag>HEAD</tag>
-  </scm>
+		<tag>HEAD</tag>
+	</scm>
 
 	<groupId>fr.trandutrieu.remy</groupId>
 	<artifactId>springboot-ws</artifactId>
@@ -193,5 +195,13 @@
 
 		</plugins>
 	</build>
-
+	<distributionManagement>
+		<repository>
+			<uniqueVersion>false</uniqueVersion>
+			<id>release-repo</id>
+			<name>Corporate Repository</name>
+			<url>file:///${user.home}/.m2/release-repo</url>
+			<layout>default</layout>
+		</repository>
+	</distributionManagement>
 </project>
