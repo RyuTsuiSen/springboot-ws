@@ -10,12 +10,12 @@
 	<scm>
 		<connection>scm:git:ssh://git@github.com/RyuTsuiSen/springboot-ws.git</connection>
 		<url>git:ssh://git@github.com/RyuTsuiSen/springboot-ws.git</url>
-		<tag>springboot-ws-1.0.4</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 	<groupId>fr.trandutrieu.remy</groupId>
 	<artifactId>springboot-ws</artifactId>
-	<version>1.0.4</version>
+	<version>1.0.5-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 	<properties>
