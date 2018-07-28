@@ -31,12 +31,12 @@ import org.springframework.context.annotation.Bean;
 
 import com.netflix.config.ConfigurationManager;
 
+import fr.trandutrieu.remy.socle.webservices.soap.springboot.ApplicationSOAPAbstract;
 import fr.trandutrieu.remy.springbootjaxws.application.bonjour.BonjourPortImpl;
 import fr.trandutrieu.remy.springbootjaxws.application.hello.HelloPortImpl;
-import fr.trandutrieu.remy.springbootjaxws.socle.webservice.ApplicationAbstract;
 
 
-public class Application extends ApplicationAbstract{
+public class Application extends ApplicationSOAPAbstract{
     
 	static {
 		System.setProperty("archaius.configurationSource.additionalUrls", "file:folder/config.properties");

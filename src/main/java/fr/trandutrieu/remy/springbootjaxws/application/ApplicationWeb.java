@@ -32,12 +32,12 @@ import org.springframework.context.annotation.Bean;
 
 import com.netflix.config.ConfigurationManager;
 
+import fr.trandutrieu.remy.socle.webservices.soap.springboot.ApplicationWebSOAPAbstract;
 import fr.trandutrieu.remy.springbootjaxws.application.bonjour.BonjourPortImpl;
 import fr.trandutrieu.remy.springbootjaxws.application.hello.HelloPortImpl;
-import fr.trandutrieu.remy.springbootjaxws.socle.webservice.ApplicationWebAbstract;
 
 
-public class ApplicationWeb extends ApplicationWebAbstract{
+public class ApplicationWeb extends ApplicationWebSOAPAbstract{
     
 	static {
 		System.setProperty("archaius.configurationSource.additionalUrls", "file:folder/config.properties");

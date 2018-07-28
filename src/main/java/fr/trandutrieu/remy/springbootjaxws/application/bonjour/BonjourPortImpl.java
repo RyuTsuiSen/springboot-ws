@@ -25,11 +25,11 @@ import org.apache.cxf.annotations.EndpointProperty;
 import org.apache.cxf.annotations.SchemaValidation;
 import org.springframework.stereotype.Component;
 
+import fr.trandutrieu.remy.socle.exceptions.BusinessException;
+import fr.trandutrieu.remy.socle.exceptions.BusinessException.BusinessExceptionBuilder;
+import fr.trandutrieu.remy.socle.webservices.inout.BusinessResponse;
+import fr.trandutrieu.remy.socle.webservices.soap.WebserviceImpl;
 import fr.trandutrieu.remy.springbootjaxws.application.hello.HelloCodeErreur;
-import fr.trandutrieu.remy.springbootjaxws.socle.exceptions.BusinessException;
-import fr.trandutrieu.remy.springbootjaxws.socle.exceptions.BusinessException.BusinessExceptionBuilder;
-import fr.trandutrieu.remy.springbootjaxws.socle.webservice.BusinessResponse;
-import fr.trandutrieu.remy.springbootjaxws.socle.webservice.WebserviceImpl;
 
 /**
  * Examples code for spring boot with CXF services. HelloPortImpl is the

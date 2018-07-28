@@ -20,8 +20,9 @@ package fr.trandutrieu.remy.springbootjaxws.application.hello;
 
 import javax.jws.WebService;
 
-import fr.trandutrieu.remy.springbootjaxws.socle.webservice.BusinessResponse;
-import fr.trandutrieu.remy.springbootjaxws.socle.webservice.Webservice;
+import fr.trandutrieu.remy.socle.webservices.inout.BusinessResponse;
+import fr.trandutrieu.remy.socle.webservices.soap.Webservice;
+
 
 /**
  * Examples code for spring boot with CXF services. Hello is the interface for

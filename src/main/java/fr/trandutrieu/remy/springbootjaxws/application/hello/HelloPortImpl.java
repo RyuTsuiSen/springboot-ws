@@ -23,14 +23,14 @@ import javax.jws.WebService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import fr.trandutrieu.remy.socle.exceptions.BusinessException.BusinessExceptionBuilder;
+import fr.trandutrieu.remy.socle.externalcall.ExternalCallResponse;
+import fr.trandutrieu.remy.socle.externalcall.AdapterCall.TYPE_APPEL;
+import fr.trandutrieu.remy.socle.externalcall.exceptions.ExternalCallCheckedException;
+import fr.trandutrieu.remy.socle.webservices.inout.BusinessResponse;
+import fr.trandutrieu.remy.socle.webservices.soap.WebserviceImpl;
 import fr.trandutrieu.remy.springbootjaxws.application.hello.call.IT568;
 import fr.trandutrieu.remy.springbootjaxws.application.hello.call.IT569;
-import fr.trandutrieu.remy.springbootjaxws.socle.exceptions.BusinessException.BusinessExceptionBuilder;
-import fr.trandutrieu.remy.springbootjaxws.socle.externalcall.AdapterCall.TYPE_APPEL;
-import fr.trandutrieu.remy.springbootjaxws.socle.externalcall.ExternalCallResponse;
-import fr.trandutrieu.remy.springbootjaxws.socle.externalcall.exceptions.ExternalCallCheckedException;
-import fr.trandutrieu.remy.springbootjaxws.socle.webservice.BusinessResponse;
-import fr.trandutrieu.remy.springbootjaxws.socle.webservice.WebserviceImpl;
 
 @WebService
 @Component
