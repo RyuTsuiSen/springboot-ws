@@ -20,16 +20,10 @@ package fr.trandutrieu.remy.springbootjaxws.application;
 
 import javax.xml.ws.Endpoint;
 
-import org.apache.commons.configuration.AbstractConfiguration;
-import org.apache.commons.configuration.event.ConfigurationEvent;
-import org.apache.commons.configuration.event.ConfigurationListener;
 import org.apache.cxf.jaxws.EndpointImpl;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.annotation.Bean;
-
-import com.netflix.config.ConfigurationManager;
 
 import fr.trandutrieu.remy.socle.webservices.soap.springboot.ApplicationSOAPAbstract;
 import fr.trandutrieu.remy.springbootjaxws.application.bonjour.BonjourPortImpl;
@@ -38,22 +32,6 @@ import fr.trandutrieu.remy.springbootjaxws.application.hello.HelloPortImpl;
 
 public class Application extends ApplicationSOAPAbstract{
     
-	static {
-		System.setProperty("archaius.configurationSource.additionalUrls", "file:folder/config.properties");
-		System.setProperty("archaius.dynamicPropertyFactory.registerConfigWithJMX", "true");
-
-		
-		ConfigurationManager.getConfigInstance().addConfigurationListener(new ConfigurationListener() {
-			@Override
-			public void configurationChanged(ConfigurationEvent event) {
-				if(event.isBeforeUpdate()) {
-					AbstractConfiguration manager = ConfigurationManager.getConfigInstance();
-					LoggerFactory.getLogger("AUDIT.PROPERTIES").trace("Quelqu'un a change la valeur de " + event.getPropertyName() + " : [old="+ manager.getString(event.getPropertyName(), "ERROR") +"] / [new="+ event.getPropertyValue()+"] ");
-				}
-			}
-		}); 
-	}
-	
 	public static void main(String[] args) throws Exception {
         SpringApplication.run(Application.class, args);
     }

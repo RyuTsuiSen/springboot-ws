@@ -15,9 +15,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import fr.trandutrieu.remy.socle.exceptions.BusinessException;
 import fr.trandutrieu.remy.springbootjaxws.application.Application;
 import fr.trandutrieu.remy.springbootjaxws.application.ApplicationSystemTestConfig;
-import fr.trandutrieu.remy.springbootjaxws.application.hello.Hello;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes= {Application.class, ApplicationSystemTestConfig.class} ,webEnvironment=WebEnvironment.DEFINED_PORT)
@@ -27,7 +27,7 @@ public class HelloPortImplSystemTest {
 	public BindingProvider port;
 	
     @Test
-    public void sayHello() { 
+    public void sayHello() throws BusinessException { 
 		Hello helloService = (Hello) port;
     	
     	if (port instanceof Hello) {
