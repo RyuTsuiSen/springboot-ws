@@ -20,8 +20,10 @@ package fr.trandutrieu.remy.springbootjaxws.application.hello;
 
 import javax.jws.WebService;
 
-import fr.trandutrieu.remy.springbootjaxws.socle.webservice.BusinessResponse;
-import fr.trandutrieu.remy.springbootjaxws.socle.webservice.Webservice;
+import fr.trandutrieu.remy.socle.exceptions.BusinessException;
+import fr.trandutrieu.remy.socle.webservices.inout.BusinessResponse;
+import fr.trandutrieu.remy.socle.webservices.soap.Webservice;
+
 
 /**
  * Examples code for spring boot with CXF services. Hello is the interface for
@@ -31,12 +33,12 @@ import fr.trandutrieu.remy.springbootjaxws.socle.webservice.Webservice;
 @WebService
 public interface Hello extends Webservice {
 
-    public BusinessResponse sayHello(String myname);
-    public BusinessResponse sayRuntimeException();
-    public BusinessResponse sayBusinessException();
-    public BusinessResponse sayHelloWithExternalCall(); //OK
-	public BusinessResponse sayHelloButNullPointer(); //	ERREUR_DEV
-	public BusinessResponse doExternalCallWithTimeOut(); //TIMEOUT
-	public BusinessResponse doExternalCallWithInterupted(); //	EXECUTION_ISSUE,
-	public BusinessResponse doExternalCallWithExceptionChecked(); // CHECKED_EXCEPTION
+    public BusinessResponse sayHello(String myname) throws BusinessException;
+    public BusinessResponse sayRuntimeException() throws BusinessException;
+    public BusinessResponse sayBusinessException() throws BusinessException;
+    public BusinessResponse sayHelloWithExternalCall() throws BusinessException;
+	public BusinessResponse sayHelloButNullPointer() throws BusinessException;
+	public BusinessResponse doExternalCallWithTimeOut() throws BusinessException;
+	public BusinessResponse doExternalCallWithInterupted() throws BusinessException;
+	public BusinessResponse doExternalCallWithExceptionChecked() throws BusinessException;
 }

@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
-import fr.trandutrieu.remy.springbootjaxws.socle.webservice.BusinessRequest;
+import fr.trandutrieu.remy.socle.webservices.inout.BusinessRequest;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class BonjourRequest extends BusinessRequest implements Serializable{

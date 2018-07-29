@@ -23,14 +23,15 @@ import javax.jws.WebService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import fr.trandutrieu.remy.socle.exceptions.BusinessException;
+import fr.trandutrieu.remy.socle.exceptions.BusinessException.BusinessExceptionBuilder;
+import fr.trandutrieu.remy.socle.externalcall.AdapterCall.TYPE_APPEL;
+import fr.trandutrieu.remy.socle.externalcall.ExternalCallResponse;
+import fr.trandutrieu.remy.socle.externalcall.exceptions.ExternalCallCheckedException;
+import fr.trandutrieu.remy.socle.webservices.inout.BusinessResponse;
+import fr.trandutrieu.remy.socle.webservices.soap.WebserviceImpl;
 import fr.trandutrieu.remy.springbootjaxws.application.hello.call.IT568;
 import fr.trandutrieu.remy.springbootjaxws.application.hello.call.IT569;
-import fr.trandutrieu.remy.springbootjaxws.socle.exceptions.BusinessException.BusinessExceptionBuilder;
-import fr.trandutrieu.remy.springbootjaxws.socle.externalcall.AdapterCall.TYPE_APPEL;
-import fr.trandutrieu.remy.springbootjaxws.socle.externalcall.ExternalCallResponse;
-import fr.trandutrieu.remy.springbootjaxws.socle.externalcall.exceptions.ExternalCallCheckedException;
-import fr.trandutrieu.remy.springbootjaxws.socle.webservice.BusinessResponse;
-import fr.trandutrieu.remy.springbootjaxws.socle.webservice.WebserviceImpl;
 
 @WebService
 @Component
@@ -53,12 +54,12 @@ public class HelloPortImpl extends WebserviceImpl implements Hello {
     }
 
 	@Override
-	public BusinessResponse sayBusinessException() {
+	public BusinessResponse sayBusinessException()  throws BusinessException{
 		throw BusinessExceptionBuilder.instance(HelloCodeErreur.CONTRAT_NON_TROUVE).build();
 	}
 
 	@Override
-	public BusinessResponse sayHelloWithExternalCall() {
+	public BusinessResponse sayHelloWithExternalCall() throws BusinessException{
 		BusinessResponse reponse = new BusinessResponse();
 		try {
 			ExternalCallResponse execute = it568.execute(null, TYPE_APPEL.OK);
@@ -73,7 +74,7 @@ public class HelloPortImpl extends WebserviceImpl implements Hello {
 	
 
 	@Override
-	public BusinessResponse sayHelloButNullPointer(){
+	public BusinessResponse sayHelloButNullPointer() throws BusinessException{
 		try {
 			it568.execute(null, TYPE_APPEL.ERREUR_DEV);
 		} catch (ExternalCallCheckedException e) {
@@ -85,7 +86,7 @@ public class HelloPortImpl extends WebserviceImpl implements Hello {
 	}
 
 	@Override
-	public BusinessResponse doExternalCallWithTimeOut() {
+	public BusinessResponse doExternalCallWithTimeOut() throws BusinessException{
 		try {
 			it568.execute(null, TYPE_APPEL.TIMEOUT);
 		} catch (ExternalCallCheckedException e) {
@@ -95,7 +96,7 @@ public class HelloPortImpl extends WebserviceImpl implements Hello {
 	}
 
 	@Override
-	public BusinessResponse doExternalCallWithInterupted() {
+	public BusinessResponse doExternalCallWithInterupted() throws BusinessException{
 		try {
 			it568.execute(null, TYPE_APPEL.EXECUTION_ISSUE);
 		} catch (ExternalCallCheckedException e) {
@@ -105,7 +106,7 @@ public class HelloPortImpl extends WebserviceImpl implements Hello {
 	}
 
 	@Override
-	public BusinessResponse doExternalCallWithExceptionChecked() {
+	public BusinessResponse doExternalCallWithExceptionChecked() throws BusinessException{
 		try {
 			it568.execute(null, TYPE_APPEL.CHECKED_EXCEPTION);
 		} catch (ExternalCallCheckedException e) {
