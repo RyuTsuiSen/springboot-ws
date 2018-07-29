@@ -21,8 +21,8 @@ package fr.trandutrieu.remy.springbootjaxws.application.hello;
 import javax.jws.WebService;
 
 import fr.trandutrieu.remy.socle.exceptions.BusinessException;
-import fr.trandutrieu.remy.socle.webservices.inout.BusinessResponse;
-import fr.trandutrieu.remy.socle.webservices.soap.Webservice;
+import fr.trandutrieu.remy.socle.inout.BusinessResponse;
+import fr.trandutrieu.remy.socle.soap.Webservice;
 
 
 /**

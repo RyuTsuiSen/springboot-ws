@@ -28,8 +28,8 @@ import fr.trandutrieu.remy.socle.exceptions.BusinessException.BusinessExceptionB
 import fr.trandutrieu.remy.socle.externalcall.AdapterCall.TYPE_APPEL;
 import fr.trandutrieu.remy.socle.externalcall.ExternalCallResponse;
 import fr.trandutrieu.remy.socle.externalcall.exceptions.ExternalCallCheckedException;
-import fr.trandutrieu.remy.socle.webservices.inout.BusinessResponse;
-import fr.trandutrieu.remy.socle.webservices.soap.WebserviceImpl;
+import fr.trandutrieu.remy.socle.inout.BusinessResponse;
+import fr.trandutrieu.remy.socle.soap.WebserviceImpl;
 import fr.trandutrieu.remy.springbootjaxws.application.hello.call.IT568;
 import fr.trandutrieu.remy.springbootjaxws.application.hello.call.IT569;
 

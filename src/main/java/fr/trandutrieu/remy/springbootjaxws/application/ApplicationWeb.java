@@ -26,7 +26,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
 
-import fr.trandutrieu.remy.socle.webservices.soap.springboot.ApplicationWebSOAPAbstract;
+import fr.trandutrieu.remy.socle.soap.springboot.ApplicationWebSOAPAbstract;
 import fr.trandutrieu.remy.springbootjaxws.application.bonjour.BonjourPortImpl;
 import fr.trandutrieu.remy.springbootjaxws.application.hello.HelloPortImpl;
 

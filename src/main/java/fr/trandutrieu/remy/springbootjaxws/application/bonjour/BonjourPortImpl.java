@@ -27,8 +27,8 @@ import org.springframework.stereotype.Component;
 
 import fr.trandutrieu.remy.socle.exceptions.BusinessException;
 import fr.trandutrieu.remy.socle.exceptions.BusinessException.BusinessExceptionBuilder;
-import fr.trandutrieu.remy.socle.webservices.inout.BusinessResponse;
-import fr.trandutrieu.remy.socle.webservices.soap.WebserviceImpl;
+import fr.trandutrieu.remy.socle.inout.BusinessResponse;
+import fr.trandutrieu.remy.socle.soap.WebserviceImpl;
 import fr.trandutrieu.remy.springbootjaxws.application.hello.HelloCodeErreur;
 
 /**

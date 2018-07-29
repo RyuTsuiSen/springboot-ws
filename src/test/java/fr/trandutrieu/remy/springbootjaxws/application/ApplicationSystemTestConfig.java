@@ -15,7 +15,7 @@ public class ApplicationSystemTestConfig {
     public BindingProvider setHelloService() {       
     	JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean(); 
     	factory.setServiceClass(Hello.class); 
-    	factory.setAddress("http://localhost:8080/Service/Hello"); 
+    	factory.setAddress("http://localhost:8080/ws/Hello"); 
     	BindingProvider client = (BindingProvider) factory.create(); 
     	return client;
     }
