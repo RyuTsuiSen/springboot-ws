@@ -9,47 +9,55 @@
 		<version>2.0.3.RELEASE</version>
 	</parent>
 
-	<scm>
-		<connection>scm:git:ssh://git@github.com/RyuTsuiSen/springboot-ws.git</connection>
-		<url>git:ssh://git@github.com/RyuTsuiSen/springboot-ws.git</url>
-		<tag>HEAD</tag>
-	</scm>
-
 	<groupId>fr.trandutrieu.remy</groupId>
 	<artifactId>springboot-ws</artifactId>
 	<version>1.0.5-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<start-class>fr.trandutrieu.remy.springbootjaxws.application.ApplicationWeb</start-class>
-		<tomcat.version>8.5.32</tomcat.version>
 		<github.global.server>github</github.global.server>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.8</java.version>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<socle.version>1.0.0-SNAPSHOT</socle.version>
 	</properties>
+
+	<scm>
+		<connection>scm:git:ssh://git@github.com/RyuTsuiSen/springboot-ws.git</connection>
+		<url>git:ssh://git@github.com/RyuTsuiSen/springboot-ws.git</url>
+		<tag>HEAD</tag>
+	</scm>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>fr.trandutrieu.remy</groupId>
+				<artifactId>springboot-socle</artifactId>
+				<version>${socle.version}</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<scope>provided</scope>
+			<artifactId>spring-boot-starter-web-services</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
-
-
 		<dependency>
 			<groupId>fr.trandutrieu.remy</groupId>
-			<artifactId>springboot-socle</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<artifactId>springboot-socle-soap</artifactId>
 		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.glowroot/glowroot-agent -->
-		<dependency>
-			<groupId>org.glowroot</groupId>
-			<artifactId>glowroot-agent</artifactId>
-			<version>0.10.12</version>
-			<scope>test</scope>
-		</dependency>
-
 	</dependencies>
 
 	<build>
