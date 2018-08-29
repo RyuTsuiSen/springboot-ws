@@ -41,7 +41,27 @@ public class Application extends ApplicationSOAPAbstract{
     
     @Bean
     public Endpoint endpoint() {
-        EndpointImpl endpoint = new EndpointImpl(this.bus,  hello);
+    	System.out.println("1 ---------" + Application.class.getClassLoader().getResource("handlers.xml"));
+    	System.out.println("2 ---------" + Application.class.getClassLoader().getResource("/handlers.xml"));
+    	System.out.println("3 ---------" + Application.class.getClassLoader().getResource("../../../../../../handlers.xml"));
+    	System.out.println("4 ---------" + Application.class.getClassLoader().getResource("/../../../../../../handlers.xml"));
+    	System.out.println();
+    	System.out.println("1 ---------" + Application.class.getResource("handlers.xml"));
+    	System.out.println("2 ---------" + Application.class.getResource("/handlers.xml"));
+    	System.out.println("3 ---------" + Application.class.getResource("../../../../../../handlers.xml"));
+    	System.out.println("4 ---------" + Application.class.getResource("/../../../../../../handlers.xml"));
+    	System.out.println();
+    	System.out.println("1 ---------" + HelloPortImpl.class.getClassLoader().getResource("handlers.xml"));
+    	System.out.println("2 ---------" + HelloPortImpl.class.getClassLoader().getResource("/handlers.xml"));
+    	System.out.println("3 ---------" + HelloPortImpl.class.getClassLoader().getResource("../../../../../../handlers.xml"));
+    	System.out.println("4 ---------" + HelloPortImpl.class.getClassLoader().getResource("/../../../../../../handlers.xml"));
+    	System.out.println();
+    	System.out.println("1 ---------" + HelloPortImpl.class.getResource("handlers.xml"));
+    	System.out.println("2 ---------" + HelloPortImpl.class.getResource("/handlers.xml"));
+    	System.out.println("3 ---------" + HelloPortImpl.class.getResource("../../../../../../handlers.xml")); // execute par cxf
+    	System.out.println("4 ---------" + HelloPortImpl.class.getResource("/../../../../../../handlers.xml"));
+    	
+    	EndpointImpl endpoint = new EndpointImpl(this.bus,  hello);
         endpoint.publish("/Hello");
         return endpoint;
     }
