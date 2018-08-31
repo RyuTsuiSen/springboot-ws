@@ -41,6 +41,7 @@ public class Application extends ApplicationSOAPAbstract{
     
     @Bean
     public Endpoint endpoint() {
+    	System.out.println(System.getProperty("user.dir")) ;
     	System.out.println("1 ---------" + Application.class.getClassLoader().getResource("handlers.xml"));
     	System.out.println("2 ---------" + Application.class.getClassLoader().getResource("/handlers.xml"));
     	System.out.println("3 ---------" + Application.class.getClassLoader().getResource("../../../../../../handlers.xml"));
@@ -56,11 +57,31 @@ public class Application extends ApplicationSOAPAbstract{
     	System.out.println("3 ---------" + HelloPortImpl.class.getClassLoader().getResource("../../../../../../handlers.xml"));
     	System.out.println("4 ---------" + HelloPortImpl.class.getClassLoader().getResource("/../../../../../../handlers.xml"));
     	System.out.println();
-    	System.out.println("1 ---------" + HelloPortImpl.class.getResource("handlers.xml"));
+    	System.out.println("1 ---------" + HelloPortImpl.class.getResource("handlers.xml")); // execute par cxf
     	System.out.println("2 ---------" + HelloPortImpl.class.getResource("/handlers.xml"));
-    	System.out.println("3 ---------" + HelloPortImpl.class.getResource("../../../../../../handlers.xml")); // execute par cxf
+    	System.out.println("3 ---------" + HelloPortImpl.class.getResource("../../../../../../handlers.xml")); 
     	System.out.println("4 ---------" + HelloPortImpl.class.getResource("/../../../../../../handlers.xml"));
-    	
+    	System.out.println();
+    	System.out.println("1 ---------" + Application.class.getResource("/../../file.txt"));
+    	System.out.println("1 ---------" + Application.class.getResource("../../file.txt")); //trouve
+    	System.out.println("1 ---------" + Application.class.getResource("/fr/trandutrieu/remy/file.txt")); //trouve
+    	System.out.println("1 ---------" + Application.class.getResource("fr/trandutrieu/remy/file.txt"));
+    	System.out.println();
+    	System.out.println("1 ---------" + HelloPortImpl.class.getResource("/../../file.txt"));
+    	System.out.println("1 ---------" + HelloPortImpl.class.getResource("../../file.txt"));
+    	System.out.println("1 ---------" + HelloPortImpl.class.getResource("/fr/trandutrieu/remy/file.txt")); //trouve
+    	System.out.println("1 ---------" + HelloPortImpl.class.getResource("fr/trandutrieu/remy/file.txt"));
+    	System.out.println();
+    	System.out.println("1 ---------" + HelloPortImpl.class.getClassLoader().getResource("/../../file.txt"));
+    	System.out.println("1 ---------" + HelloPortImpl.class.getClassLoader().getResource("../../file.txt"));
+    	System.out.println("1 ---------" + HelloPortImpl.class.getClassLoader().getResource("/fr/trandutrieu/remy/file.txt"));
+    	System.out.println("1 ---------" + HelloPortImpl.class.getClassLoader().getResource("fr/trandutrieu/remy/file.txt")); //trouve
+    	System.out.println();
+    	System.out.println("1 ---------" + Application.class.getClassLoader().getResource("/../../file.txt"));
+    	System.out.println("1 ---------" + Application.class.getClassLoader().getResource("../../file.txt")); 
+    	System.out.println("1 ---------" + Application.class.getClassLoader().getResource("/fr/trandutrieu/remy/file.txt"));
+    	System.out.println("1 ---------" + Application.class.getClassLoader().getResource("fr/trandutrieu/remy/file.txt")); //trouve
+
     	EndpointImpl endpoint = new EndpointImpl(this.bus,  hello);
         endpoint.publish("/Hello");
         return endpoint;
