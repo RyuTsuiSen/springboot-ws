@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -24,7 +26,14 @@
 		<dependency>
 			<groupId>fr.trandutrieu.remy</groupId>
 			<artifactId>springboot-ws-api</artifactId>
-		</dependency>		
+		</dependency>
+
+		<dependency>
+			<groupId>fr.trandutrieu.remy</groupId>
+			<artifactId>springboot-ws-api</artifactId>
+			<classifier>apidocs</classifier>
+			<type>war</type>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -39,16 +48,15 @@
 							<goal>repackage</goal>
 						</goals>
 					</execution>
-				</executions>				
+				</executions>
 			</plugin>
 			<plugin>
-			    <artifactId>maven-war-plugin</artifactId>
-			    <version>2.2</version>
-			    <configuration>
-			        <failOnMissingWebXml>false</failOnMissingWebXml>
-			    </configuration>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
 			</plugin>
-			
 		</plugins>
 	</build>
 </project>

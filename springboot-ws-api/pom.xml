@@ -58,9 +58,6 @@
 						<goals>
 							<goal>docs</goal>
 						</goals>
-						<configuration>
-							<docsDir>${project.build.directory}/classes/static</docsDir>
-						</configuration>
 					</execution>
 				</executions>
 				<dependencies>
@@ -77,6 +74,27 @@
 						<version>2.11.1</version>
 					</dependency>
 				</dependencies>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
+					<descriptors>
+						<descriptor>src/assembly/assembly-apidocs.xml</descriptor>
+					</descriptors>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+
 			</plugin>
 
 			<plugin>
@@ -119,6 +137,8 @@
 					</execution>
 				</executions>
 			</plugin>
+
+
 		</plugins>
 	</build>
 </project>

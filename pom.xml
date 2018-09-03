@@ -51,6 +51,14 @@
 				<artifactId>springboot-ws-api</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+			
+			<dependency>
+				<groupId>fr.trandutrieu.remy</groupId>
+				<artifactId>springboot-ws-api</artifactId>
+				<version>${project.version}</version>
+				<classifier>apidocs</classifier>
+				<type>war</type>
+			</dependency>			
 		</dependencies>
 	</dependencyManagement>
 
